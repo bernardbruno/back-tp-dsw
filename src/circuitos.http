@@ -1,0 +1,15 @@
+### Rest Client Extension
+GET http://localhost:3000/api/circuitos
+
+<!--
+POST http://localhost:3000/api/circuitos
+Content-Type: application/json
+
+{   
+      "id": "2",
+      "nombre": "Hungaroring",
+      "ubicacion": "Mogyoród",
+      "pais": "Hungría",
+      "vueltas": 70,
+      "longitud_km": 4.381
+}
