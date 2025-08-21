@@ -1,15 +1,41 @@
-### Rest Client Extension
-GET http://localhost:3000/api/circuitos
 
-<!--
+### Rest Client Extension
+GET http://localhost:3000/api/circuitos/
+
+###
 POST http://localhost:3000/api/circuitos
 Content-Type: application/json
 
 {   
-      "id": "2",
+      "id": "5",
       "nombre": "Hungaroring",
       "ubicacion": "Mogyoród",
       "pais": "Hungría",
       "vueltas": 70,
       "longitud_km": 4.381
 }
+###
+PUT http://localhost:3000/api/circuitos/4
+Content-Type: application/json
+
+{
+    "nombre": "Silverstone Circuit",
+    "ubicacion": "Silverstone",
+    "pais": "Reino Unido",
+    "vueltas": 52,
+    "longitud_km": 5.891
+}
+
+###
+PATCH http://localhost:3000/api/circuitos/3
+Content-Type: application/json
+
+{
+    "nombre": "Silverstone Circuit",
+    "ubicacion": "Silverstone",
+    "vueltas": 52,
+    "longitud_km": 5.891
+}
+
+###
+DELETE http://localhost:3000/api/circuitos/2

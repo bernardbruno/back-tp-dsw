@@ -1,6 +1,6 @@
 export class Circuito{
     constructor(
-        public id:string,
+        public id:string,       //eliminar del const
         public nombre:string,
         public ubicacion:string, 
         public pais:string,   
