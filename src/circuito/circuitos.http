@@ -33,6 +33,7 @@ Content-Type: application/json
 {
     "nombre": "Silverstone Circuit",
     "ubicacion": "Silverstone",
+                                //queda el pais viejo
     "vueltas": 52,
     "longitud_km": 5.891
 }
