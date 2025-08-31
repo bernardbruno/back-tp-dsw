@@ -1,4 +1,4 @@
-import { Repository } from "../shared/repository.js";
+import { Repository } from "../shared/db/repository.js";
 import { Circuito } from "./circuito.entity.js";
 
 const circuitos = [
