@@ -3,19 +3,28 @@
 GET http://localhost:3000/api/circuitos/
 
 ###
+# @name createCircuito
 POST http://localhost:3000/api/circuitos
 Content-Type: application/json
 
 {   
-      "id": "5",
       "nombre": "Hungaroring",
       "ubicacion": "Mogyoród",
       "pais": "Hungría",
       "vueltas": 70,
       "longitud_km": 4.381
 }
+### ID
+@id = {{createCircuito.response.body.data.id}}
+
+### GET ONE
+GET http://localhost:3000/api/circuitos/{{id}}
+
+
+
+
 ###
-PUT http://localhost:3000/api/circuitos/4
+PUT http://localhost:3000/api/circuitos/{{id}}
 Content-Type: application/json
 
 {
@@ -39,4 +48,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/api/circuitos/2
+DELETE http://localhost:3000/api/circuitos/{{id}}

@@ -1,8 +1,14 @@
 import { Request ,Response , NextFunction } from 'express'
-import { CircuitoRepository} from './circuito.repository.js'
+import { orm } from "../shared/db/orm.js";
 import { Circuito } from './circuito.entity.js'
 
-const repository = new CircuitoRepository
+//import { CircuitoRepository} from './circuito.repository.js'
+
+//const repository = new CircuitoRepository
+
+const em = orm.em
+em.getRepository(Circuito)
+
 
 function sanitizeCircuitoInput(req: Request, res: Response, next: NextFunction){
 
@@ -24,57 +30,67 @@ function sanitizeCircuitoInput(req: Request, res: Response, next: NextFunction){
     next()
 }
 
-function findAll(req: Request, res:Response) {
-    return res.json({data: repository.findAll()})
+async function findAll(req: Request, res:Response) {
+    try{
+        const circuitos = await em.find(Circuito, {})
+        res.status(200).json({message: 'find all circuitos', data:circuitos})
+    }   catch (error: any){
+        res.status(500).json({message: error.message})
+    } 
 }
+async function findOne(req: Request, res: Response){
+    try {
+        const id = Number.parseInt(req.params.id)
+        const circuito = await em.findOneOrFail(Circuito, {id})
+        res
+            .status(200)
+            .json({message: 'circuito encontrado', data: circuito})
 
-function findOne(req: Request, res: Response){
-    const id = req.params.id
-    const circuito = repository.findOne({id})
-    
-    if (!circuito){
-        return res.status(404).send({message: 'No se encontró el circuito'})
+    } catch (error: any) {
+        res.status(500).json({message: error.message})
+
     }
-    return res.json({data: circuito})
 }
 
-function add(req: Request, res: Response) {
-    const input = req.body.sanitizedCircuitoInput
+async function add(req: Request, res: Response) {
+        try{
+            const circuito = em.create(Circuito, req.body)
+            await em.flush()
+            res.status(201).json({message: 'circuito creado', data:circuito})
 
-    const circuitoInput = new Circuito(
-        input.id,
-        input.nombre,
-        input.ubicacion,
-        input.pais, 
-        input.vueltas, 
-        input.longitud_km
-    )
+        } catch (error:any){
+            res.status(201).json({message: 'circuito creado', data: error.message})
+        }
 
-    const circuito = repository.add(circuitoInput)
-    return res.status(201).send({message: 'Circuito creado con éxito', data: circuito})
-    
 }
 
-function update(req: Request, res: Response){
-    req.body.sanitizedCircuitoInput.id = req.params.id
-    const circuito = repository.update(req.body.sanitizedCircuitoInput)
-    
-    if(!circuito){
-        return res.status(404).send({message: 'Circuito no encontrado'})
+async function update(req: Request, res: Response){
+        try{
+            const id = Number.parseInt(req.params.id)
+            const circuito = em.getReference(Circuito, id)
+            em.assign(circuito, req.body)
+            await em.flush()
+            res.status(200).json({message: 'circuito actualizado con exito'})
+        } catch (error:any){
+            res.status(500).json({message: error.message})
+
+        }
+
+}
+
+async function remove(req: Request, res: Response){
+    try {
+        const id = Number.parseInt(req.params.id)
+        const circuito = em.getReference(Circuito, id)
+        await em.removeAndFlush(circuito)
+        res.status(200).json({message: 'circuito eliminado con exito'})
+    } catch (error: any) {
+        res.status(500).json({message: error.message})
+        
+        
     }
-
-    return res.status(200).send({message: 'Circuito actualizado correctamente', data: circuito})
-}
-
-function remove(req: Request, res: Response){
-    const id=req.params.id
-    const circuito = repository.delete({id})
-
-    if (!circuito){
-        return res.status(404).send({message: 'No se encontró el Circuito'})
-    }
-    return res.status(200).send({message: 'Circuito eliminado con éxito', data: circuito})
 }
 
 
+//export {sanitizeCircuitoInput, findAll, findOne, add, update, remove}
 export {sanitizeCircuitoInput, findAll, findOne, add, update, remove}

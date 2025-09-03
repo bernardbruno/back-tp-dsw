@@ -1,6 +1,9 @@
-import { CircuitoRepository } from './circuito.repository.js';
+import { orm } from "../shared/db/orm.js";
 import { Circuito } from './circuito.entity.js';
-const repository = new CircuitoRepository;
+//import { CircuitoRepository} from './circuito.repository.js'
+//const repository = new CircuitoRepository
+const em = orm.em;
+em.getRepository(Circuito);
 function sanitizeCircuitoInput(req, res, next) {
     req.body.sanitizedCircuitoInput = {
         id: req.body.id,
@@ -17,38 +20,60 @@ function sanitizeCircuitoInput(req, res, next) {
     });
     next();
 }
-function findAll(req, res) {
-    return res.json({ data: repository.findAll() });
-}
-function findOne(req, res) {
-    const id = req.params.id;
-    const circuito = repository.findOne({ id });
-    if (!circuito) {
-        return res.status(404).send({ message: 'No se encontró el circuito' });
+async function findAll(req, res) {
+    try {
+        const circuitos = await em.find(Circuito, {});
+        res.status(200).json({ message: 'find all circuitos', data: circuitos });
     }
-    return res.json({ data: circuito });
-}
-function add(req, res) {
-    const input = req.body.sanitizedCircuitoInput;
-    const circuitoInput = new Circuito(input.id, input.nombre, input.ubicacion, input.pais, input.vueltas, input.longitud_km);
-    const circuito = repository.add(circuitoInput);
-    return res.status(201).send({ message: 'Circuito creado con éxito', data: circuito });
-}
-function update(req, res) {
-    req.body.sanitizedCircuitoInput.id = req.params.id;
-    const circuito = repository.update(req.body.sanitizedCircuitoInput);
-    if (!circuito) {
-        return res.status(404).send({ message: 'Circuito no encontrado' });
+    catch (error) {
+        res.status(500).json({ message: error.message });
     }
-    return res.status(200).send({ message: 'Circuito actualizado correctamente', data: circuito });
 }
-function remove(req, res) {
-    const id = req.params.id;
-    const circuito = repository.delete({ id });
-    if (!circuito) {
-        return res.status(404).send({ message: 'No se encontró el Circuito' });
+async function findOne(req, res) {
+    try {
+        const id = Number.parseInt(req.params.id);
+        const circuito = await em.findOneOrFail(Circuito, { id });
+        res
+            .status(200)
+            .json({ message: 'circuito encontrado', data: circuito });
     }
-    return res.status(200).send({ message: 'Circuito eliminado con éxito', data: circuito });
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
+async function add(req, res) {
+    try {
+        const circuito = em.create(Circuito, req.body);
+        await em.flush();
+        res.status(201).json({ message: 'circuito creado', data: circuito });
+    }
+    catch (error) {
+        res.status(201).json({ message: 'circuito creado', data: error.message });
+    }
+}
+async function update(req, res) {
+    try {
+        const id = Number.parseInt(req.params.id);
+        const circuito = em.getReference(Circuito, id);
+        em.assign(circuito, req.body);
+        await em.flush();
+        res.status(200).json({ message: 'circuito actualizado con exito' });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+async function remove(req, res) {
+    try {
+        const id = Number.parseInt(req.params.id);
+        const circuito = em.getReference(Circuito, id);
+        await em.removeAndFlush(circuito);
+        res.status(200).json({ message: 'circuito eliminado con exito' });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+//export {sanitizeCircuitoInput, findAll, findOne, add, update, remove}
 export { sanitizeCircuitoInput, findAll, findOne, add, update, remove };
 //# sourceMappingURL=circuito.controler.js.map

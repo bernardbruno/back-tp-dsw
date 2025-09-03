@@ -1,6 +1,6 @@
 import { Repository } from "../shared/db/repository.js";
 import { Circuito } from "./circuito.entity.js";
-
+/*
 const circuitos = [
     new Circuito(
         "1",
@@ -70,4 +70,4 @@ export class CircuitoRepository implements Repository<Circuito>{
             return output
         }
     }
-}
+}/*/

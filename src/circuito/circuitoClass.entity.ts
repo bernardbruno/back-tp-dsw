@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, Property, Collection } from '@mikro-orm/core'
 import { Circuito } from "./circuito.entity.js"
 import { BaseEntity } from '../shared/db/baseEntity.entity.js'
 
@@ -19,5 +19,7 @@ export class CircuitoClass extends BaseEntity {
     
     @Property()
     longitud_km!: number
+
+    circuitos = new Collection<Circuito>(this)
     
 }
