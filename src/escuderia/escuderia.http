@@ -1,0 +1,48 @@
+
+### Rest Client Extension
+GET http://localhost:3000/api/escuderia/
+
+###
+# @name createEscuderia
+POST http://localhost:3000/api/escuderia
+Content-Type: application/json
+
+{   
+    "nombre": "Scuderia Ferrari",
+    "pais_base": "Italia",
+    "jefe_equipo": "Frédéric Vasseur",
+    "motor": "Ferrari"
+}
+### ID
+@id = {{createEscuderia.response.body.data.id}}
+
+### GET ONE
+GET http://localhost:3000/api/escuderia/{{id}}
+
+
+
+
+###
+PUT http://localhost:3000/api/escuderia/{{id}}
+Content-Type: application/json
+
+{
+    "nombre": "Mercedes-AMG Petronas Formula One Team",
+    "pais_base": "Reino Unido",
+    "jefe_equipo": "Toto Wolff",
+    "motor": "Mercedes"
+}
+
+###
+PATCH http://localhost:3000/api/escuderia/3
+Content-Type: application/json
+
+{
+    "nombre": "Oracle Red Bull Racing",
+    "pais_base": "Reino Unido",
+    "jefe_equipo": "Christian Horner",
+    "motor": "Red Bull Powertrains"
+}
+
+###
+DELETE http://localhost:3000/api/escuderia/{{id}}

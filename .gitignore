@@ -3,6 +3,7 @@ coverage
 
 # API keys and secrets
 .env
+src/shared/db/orm.ts
 
 # dependency directory
 node_modules

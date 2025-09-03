@@ -1,7 +1,5 @@
 import { orm } from "../shared/db/orm.js";
 import { Circuito } from './circuito.entity.js';
-//import { CircuitoRepository} from './circuito.repository.js'
-//const repository = new CircuitoRepository
 const em = orm.em;
 em.getRepository(Circuito);
 function sanitizeCircuitoInput(req, res, next) {
@@ -23,7 +21,7 @@ function sanitizeCircuitoInput(req, res, next) {
 async function findAll(req, res) {
     try {
         const circuitos = await em.find(Circuito, {});
-        res.status(200).json({ message: 'find all circuitos', data: circuitos });
+        res.status(200).json({ message: 'Buscar todos los circuitos', data: circuitos });
     }
     catch (error) {
         res.status(500).json({ message: error.message });
