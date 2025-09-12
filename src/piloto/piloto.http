@@ -1,0 +1,54 @@
+
+### Rest Client Extension
+GET http://localhost:3000/api/piloto/
+
+###
+# @name createpiloto
+POST http://localhost:3000/api/piloto
+Content-Type: application/json
+
+{
+  "nombre": "Carlos",
+  "apellido": "Sainz",
+  "nacionalidad": "España",
+  "numero": 55,
+  "fecha_nacimiento": "1994-09-01",
+  "estado": "Activo",
+  "debut": "2015",
+  "titulos": 0,
+  "escuderia": 1
+}
+
+### ID
+@id = {{createpiloto.response.body.data.id}}
+
+### GET ONE
+GET http://localhost:3000/api/piloto/{{id}}
+
+
+
+
+###
+PUT http://localhost:3000/api/piloto/{{id}}
+Content-Type: application/json
+
+{
+    "nombre": "Mercedes-AMG Petronas Formula One Team",
+    "pais_base": "Reino Unido",
+    "jefe_equipo": "Toto Wolff",
+    "motor": "Mercedes"
+}
+
+###
+PATCH http://localhost:3000/api/piloto/3
+Content-Type: application/json
+
+{
+    "nombre": "Oracle Red Bull Racing",
+    "pais_base": "Reino Unido",
+    "jefe_equipo": "Christian Horner",
+    "motor": "Red Bull Powertrains"
+}
+
+###
+DELETE http://localhost:3000/api/piloto/{{id}}

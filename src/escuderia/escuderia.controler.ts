@@ -10,9 +10,13 @@ function sanitizeEscuderiaInput(req: Request, res: Response, next: NextFunction)
 
     req.body.sanitizedEscuderiaInput = {        //aca tendrian q hacerse mas validaciones
         id:req.body.id,                     //borrar
-        pais_base: req.body.nombre,
-        jefe_equipo: req.body.ubicacion,
-        motor: req.body.pais,
+        pais_base: req.body.pais_base,
+        jefe_equipo: req.body.jefe_equipo,
+        motor: req.body.motor,
+        campeonatos_constructores: req.body.campeonatos_constructores,
+        debut: req.body.debut,
+        logo: req.body.logo,
+        auto_img: req.body.auto_img,
     }
 
     Object.keys(req.body.sanitizedEscuderiaInput).forEach((key) => {

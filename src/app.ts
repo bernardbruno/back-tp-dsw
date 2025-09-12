@@ -5,9 +5,10 @@ import 'reflect-metadata'
 import { orm, syncSchema } from './shared/db/orm.js'
 import { RequestContext } from '@mikro-orm/core'
 
+import { usuarioRouter } from './usuario/usuario.routes.js'
 import { circuitoRouter } from './circuito/circuito.routes.js'
 import { escuderiaRouter } from './escuderia/escuderia.routes.js'
-import { usuarioRouter } from './usuario/usuario.routes.js'
+import { pilotoRouter } from './piloto/piloto.routes.js'
 
 
 
@@ -29,9 +30,10 @@ await syncSchema() //never in production
 
 //middelwares rutas y negocio
 
-app.use('/api/circuitos', circuitoRouter)
-app.use('/api/escuderia', escuderiaRouter)
 app.use('/api/usuario', usuarioRouter)
+app.use('/api/circuito', circuitoRouter)
+app.use('/api/escuderia', escuderiaRouter)
+app.use('/api/piloto', pilotoRouter)
 
 app.use((_, res) => {
     return res.status(404).send({ message: 'Recurso no encontrado' })

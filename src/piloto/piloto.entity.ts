@@ -11,16 +11,16 @@ export class Piloto extends BaseEntity {
     @Property({nullable: false})    
     apellido!:string
 
-    @Property({nullable: true})    
+    @Property({nullable: false})    
     nacionalidad!:string
 
     @Property()    
     numero!:number
 
-    @Property({nullable: true})    
+    @Property({nullable: false})    
     fecha_nacimiento!:Date
 
-    @Property({nullable: true})    
+    @Property({nullable: false})    
     estado!:string
 
     @Property()    
