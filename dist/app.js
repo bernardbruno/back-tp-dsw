@@ -5,6 +5,7 @@ import { orm, syncSchema } from './shared/db/orm.js';
 import { RequestContext } from '@mikro-orm/core';
 import { circuitoRouter } from './circuito/circuito.routes.js';
 import { escuderiaRouter } from './escuderia/escuderia.routes.js';
+import { usuarioRouter } from './usuario/usuario.routes.js';
 const app = express();
 const corsOptions = {
     origin: 'http://localhost:5173',
@@ -19,6 +20,7 @@ await syncSchema(); //never in production
 //middelwares rutas y negocio
 app.use('/api/circuitos', circuitoRouter);
 app.use('/api/escuderia', escuderiaRouter);
+app.use('/api/usuario', usuarioRouter);
 app.use((_, res) => {
     return res.status(404).send({ message: 'Recurso no encontrado' });
 });

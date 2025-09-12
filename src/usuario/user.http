@@ -1,0 +1,50 @@
+
+### Rest Client Extension
+GET http://localhost:3000/api/usuario/
+
+###
+# @name createEscuderia
+POST http://localhost:3000/api/usuario/
+Content-Type: application/json
+
+{
+  "nombre_usuario": "administrador",
+  "nombre": "Pedro",
+  "apellido": "Moretti Yrure",
+  "email": "pedro@example.com",
+  "password": "1234",  
+  "pais": "Argentina",
+  "user_img": null,
+  "rol": "admin"
+}
+
+### ID
+@id = {{createEscuderia.response.body.data.id}}
+
+### GET ONE
+GET http://localhost:3000/api/usuario/{{id}}
+
+
+
+
+###
+PUT http://localhost:3000/api/usuario/{{id}}
+Content-Type: application/json
+
+{
+    "email": "pedro2@example.com"
+}
+
+###
+PATCH http://localhost:3000/api/usuario/3
+Content-Type: application/json
+
+{
+    "nombre": "Oracle Red Bull Racing",
+    "pais_base": "Reino Unido",
+    "jefe_equipo": "Christian Horner",
+    "motor": "Red Bull Powertrains"
+}
+
+###
+DELETE http://localhost:3000/api/usuario/{{id}}
