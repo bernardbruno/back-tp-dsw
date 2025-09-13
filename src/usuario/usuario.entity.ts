@@ -1,5 +1,7 @@
-import { Entity, Property} from '@mikro-orm/core';
+import { Entity, Property, ManyToOne} from '@mikro-orm/core';
 import { BaseEntity } from "../shared/db/baseEntity.entity.js";
+import { Piloto } from "../piloto/piloto.entity.js"
+
 
 
 @Entity()
@@ -28,4 +30,12 @@ export class Usuario extends BaseEntity {
 
   @Property({ nullable: false })
   rol!: string;
+
+  @Property()
+  puntos!: number;
+
+  @ManyToOne(()=> Piloto)
+  piloto_fav!: Piloto
+
+
 }
