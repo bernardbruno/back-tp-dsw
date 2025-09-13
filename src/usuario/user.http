@@ -12,7 +12,22 @@ Content-Type: application/json
   "nombre": "Pedro",
   "apellido": "Moretti Yrure",
   "email": "pedro@example.com",
-  "password": "1234",  
+  "password": "123456",  
+  "pais": "Argentina",
+  "user_img": null,
+  "rol": "admin"
+}
+
+### Crear Admin Inicial
+POST http://localhost:3000/api/usuario/
+Content-Type: application/json
+
+{
+  "nombre_usuario": "bruno",
+  "nombre": "Bruno",
+  "apellido": "Bernard",
+  "email": "bruno@example.com",
+  "password": "admin123",  
   "pais": "Argentina",
   "user_img": null,
   "rol": "admin"
