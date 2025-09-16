@@ -52,3 +52,81 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/api/piloto/{{id}}
+
+POST http://localhost:3000/api/piloto
+Content-Type: application/json
+
+{
+  "nombre": "Max",
+  "apellido": "Verstappen",
+  "nacionalidad": "Países Bajos",
+  "numero": 1,
+  "fecha_nacimiento": "1997-09-30",
+  "estado": "Activo",
+  "debut": "2015",
+  "titulos": 3,
+  "escuderia": 2
+}
+###
+POST http://localhost:3000/api/piloto
+Content-Type: application/json
+
+{
+  "nombre": "Lewis",
+  "apellido": "Hamilton",
+  "nacionalidad": "Reino Unido",
+  "numero": 44,
+  "fecha_nacimiento": "1985-01-07",
+  "estado": "Activo",
+  "debut": "2007",
+  "titulos": 7,
+  "escuderia": 3
+}
+###
+POST http://localhost:3000/api/piloto
+Content-Type: application/json
+
+{
+  "nombre": "Sebastian",
+  "apellido": "Vettel",
+  "nacionalidad": "Alemania",
+  "numero": 5,
+  "fecha_nacimiento": "1987-07-03",
+  "estado": "Retirado",
+  "debut": "2007",
+  "titulos": 4,
+  "escuderia": 4
+}
+###
+POST http://localhost:3000/api/piloto
+Content-Type: application/json
+
+{
+  "nombre": "Fernando",
+  "apellido": "Alonso",
+  "nacionalidad": "España",
+  "numero": 14,
+  "fecha_nacimiento": "1981-07-29",
+  "estado": "Activo",
+  "debut": "2001",
+  "titulos": 2,
+  "escuderia": 5
+}
+###
+POST http://localhost:3000/api/piloto
+Content-Type: application/json
+
+{
+  "nombre": "Charles",
+  "apellido": "Leclerc",
+  "nacionalidad": "Mónaco",
+  "numero": 16,
+  "fecha_nacimiento": "1997-10-16",
+  "estado": "Activo",
+  "debut": "2018",
+  "titulos": 0,
+  "escuderia": 1
+}
+
+
+

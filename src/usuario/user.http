@@ -47,7 +47,7 @@ PUT http://localhost:3000/api/usuario/{{id}}
 Content-Type: application/json
 
 {
-    "email": "pedro2@example.com"
+    "piloto_fav": 1
 }
 
 ###

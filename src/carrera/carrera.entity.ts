@@ -1,10 +1,12 @@
-import { Entity, Property, ManyToOne, ManyToMany, Rel, Cascade} from "@mikro-orm/core"
+import { Entity, Property, ManyToOne, Rel, Cascade, OneToMany, Collection} from "@mikro-orm/core"
 import { BaseEntity } from "../shared/db/baseEntity.entity.js";
-import { Escuderia } from "../escuderia/escuderia.entity.js"
 import { Piloto } from "../piloto/piloto.entity.js"
+import { Resultado } from '../resultado/resultado.entity.js';
+import { Circuito } from "../circuito/circuito.entity.js";
 
 @Entity()
 export class Carrera extends BaseEntity {
+
     @Property({nullable: false})    
     nombre!:string
 
@@ -17,14 +19,22 @@ export class Carrera extends BaseEntity {
     @Property({nullable: false})    
     hora_carrera!:number
 
-    @ManyToOne(()=> Piloto)
+    @ManyToOne(()=> Piloto, {nullable: true})
     vuelta_rapida!: Rel<Piloto>
 
-    @ManyToOne(()=> Piloto)
+    @ManyToOne(()=> Piloto, {nullable: true})
     pole!: Rel<Piloto>
 
+    /*
     @ManyToMany(()=> Piloto, (piloto)=> piloto.carreras, 
                 {cascade: [Cascade.ALL], owner: true})
     pilotos!: Piloto[]
+    */
+
+    @ManyToOne(()=> Circuito, {nullable: false})
+    circuito!: Circuito
+
+    @OneToMany(() => Resultado, r => r.carrera, {nullable: true})
+    resultados = new Collection<Resultado>(this);
 }
 

@@ -70,12 +70,25 @@ async function add(req: Request, res: Response) {
 }
 
 async function update(req: Request, res: Response){
-
-    res.status(500).json({message: 'not implemented'})  
+    try{
+        const id = Number.parseInt(req.params.id)
+        const piloto = await em.findOneOrFail(Piloto, {id})
+        em.assign(piloto, req.body.sanitizedPilotoInput)
+    } catch(error:any){
+    res.status(500).json({message: error.message})  
+    }
 }
 
 async function remove(req: Request, res: Response){
-    res.status(500).json({message: 'not implemented'})  
+    try {
+        const id = Number.parseInt(req.params.id)
+        const piloto = em.getReference(Piloto, id)
+        await em.removeAndFlush(piloto)
+        res.status(200).json({message: "Piloto eliminado con exito"})        
+    } catch (error: any) {
+        res.status(500).json({message: error.message})
+        
+    }  
 }
 
 export {sanitizePilotoInput, findAll, findOne, add, update, remove}

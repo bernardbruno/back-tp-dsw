@@ -1,7 +1,8 @@
-import { Entity, Property, ManyToOne, Rel, Collection, ManyToMany} from "@mikro-orm/core"
+import { Entity, Property, ManyToOne, Rel, Collection, ManyToMany, OneToMany} from "@mikro-orm/core"
 import { BaseEntity } from "../shared/db/baseEntity.entity.js";
 import { Escuderia } from "../escuderia/escuderia.entity.js"
 import { Carrera } from "../carrera/carrera.entity.js";
+import { Resultado } from "../resultado/resultado.entity.js";
 
 @Entity()
 export class Piloto extends BaseEntity {
@@ -34,8 +35,11 @@ export class Piloto extends BaseEntity {
 
     @ManyToOne(() => Escuderia)    
     escuderia!: Rel<Escuderia>
-
+    /*
     @ManyToMany(()=> Carrera, (carrera)=>carrera.pilotos)
     carreras = new Collection<Carrera>(this)
+    */
+    @OneToMany(() => Resultado, r => r.piloto)
+    resultados = new Collection<Resultado>(this);
 }
 

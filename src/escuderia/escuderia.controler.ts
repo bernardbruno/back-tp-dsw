@@ -9,7 +9,6 @@ em.getRepository(Escuderia)
 function sanitizeEscuderiaInput(req: Request, res: Response, next: NextFunction){
 
     req.body.sanitizedEscuderiaInput = {        //aca tendrian q hacerse mas validaciones
-        id:req.body.id,                     //borrar
         pais_base: req.body.pais_base,
         jefe_equipo: req.body.jefe_equipo,
         motor: req.body.motor,

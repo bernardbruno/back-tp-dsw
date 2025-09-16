@@ -39,10 +39,10 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
     try {
         const id = Number.parseInt(req.params.id)
-        const usuario = await em.findOneOrFail(Usuario, { id })
+        const usuario = await em.findOneOrFail(Usuario, { id }, {populate: ['piloto_fav']})
         res
             .status(200)
-            .json({ message: 'escuderia encontrada', data: usuario })
+            .json({ message: 'usuario encontrado', data: usuario })
 
     } catch (error: any) {
         res.status(500).json({ message: error.message })

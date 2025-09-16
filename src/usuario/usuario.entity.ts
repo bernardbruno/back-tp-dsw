@@ -1,7 +1,7 @@
 import { Entity, Property, ManyToOne} from '@mikro-orm/core';
 import { BaseEntity } from "../shared/db/baseEntity.entity.js";
 import { Piloto } from "../piloto/piloto.entity.js"
-
+import crypto from 'crypto';
 
 
 @Entity()
@@ -19,10 +19,10 @@ export class Usuario extends BaseEntity {
   @Property({ unique: true, nullable: false })
   email!: string;
 
-  @Property({ nullable: false })
+  @Property({ hidden: false, nullable: false })
   password!: string;
 
-  @Property({ nullable: false })
+  @Property({ nullable: true })
   pais!: string;
 
   @Property({ type: 'blob', nullable: true })
@@ -34,8 +34,11 @@ export class Usuario extends BaseEntity {
   @Property()
   puntos!: number;
 
-  @ManyToOne(()=> Piloto)
+  @ManyToOne(()=> Piloto, { nullable: true })
   piloto_fav!: Piloto
 
+  static hashPassword(password: string) {
+    return crypto.createHmac('sha256', password).digest('hex');
+  }
 
 }
