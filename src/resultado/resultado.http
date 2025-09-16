@@ -1,0 +1,33 @@
+###
+GET http://localhost:3000/api/carrera/
+###
+GET http://localhost:3000/api/piloto/
+
+###
+GET http://localhost:3000/api/resultado
+###
+GET http://localhost:3000/api/resultado/2/1
+
+###
+GET http://localhost:3000/api/resultado/3
+
+
+
+
+
+###
+POST http://localhost:3000/api/resultado
+Content-Type: application/json
+
+{
+    "piloto": 1,
+    "carrera": 3
+}
+###
+PUT http://localhost:3000/api/resultado/2/1
+Content-Type: application/json
+
+{
+    "posicion": 1
+}
+

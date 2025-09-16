@@ -1,0 +1,64 @@
+###
+GET http://localhost:3000/api/carrera/
+###
+POST http://localhost:3000/api/carrera
+Content-Type: application/json
+
+{
+  "nombre": "Gran Premio de Australia",
+  "numero": 1,
+  "fecha_carrera": "2025-03-23",
+  "hora_carrera": 15,
+  "circuito": 3
+}
+
+###
+POST http://localhost:3000/api/carrera
+Content-Type: application/json
+
+{
+  "nombre": "Gran Premio de Bahréin",
+  "numero": 2,
+  "fecha_carrera": "2025-03-30",
+  "hora_carrera": 17,
+
+  "circuito": 1
+}
+
+###
+POST http://localhost:3000/api/carrera
+Content-Type: application/json
+
+{
+  "nombre": "Gran Premio de China",
+  "numero": 3,
+  "fecha_carrera": "2025-04-13",
+  "hora_carrera": 14,
+  "vuelta_rapida": null,
+  "pole": null,
+  "circuito": 2
+}
+
+###
+POST http://localhost:3000/api/carrera
+Content-Type: application/json
+
+{
+  "nombre": "Gran Premio de Gran Bretaña",
+  "numero": 10,
+  "fecha_carrera": "2025-07-06",
+  "hora_carrera": 15,
+  "circuito": 3
+}
+
+###
+POST http://localhost:3000/api/carrera
+Content-Type: application/json
+
+{
+  "nombre": "Gran Premio de Hungría",
+  "numero": 11,
+  "fecha_carrera": "2025-07-20",
+  "hora_carrera": 15,
+  "circuito": 1
+}

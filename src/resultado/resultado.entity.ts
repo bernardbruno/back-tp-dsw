@@ -5,16 +5,16 @@ import { Carrera } from '../carrera/carrera.entity.js';
 
 @Entity()
 export class Resultado {
-  @ManyToOne(() => Piloto, { primary: true })
+  @ManyToOne(() => Piloto, { primary: true , nullable: false})
   piloto!: Rel<Piloto>
 
-  @ManyToOne(() => Carrera, { primary: true })
+  @ManyToOne(() => Carrera, { primary: true, nullable: false })
   carrera!: Carrera;
 
-  @Property()
+  @Property({nullable: true})
   posicion!: number;
 
-  @Property()
+  @Property({nullable: true})
   estado!: string //DNF DNS 
 
   //tiempos?

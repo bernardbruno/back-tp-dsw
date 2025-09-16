@@ -68,6 +68,8 @@ async function update(req: Request, res: Response) {
     const id = Number.parseInt(req.params.id)
     const carrera = await em.findOneOrFail(Carrera, { id })
     em.assign(carrera, req.body.sanitizedCarreraInput)
+    await em.flush()
+    res.status(200).json({ message: 'carrera actualizada con exito' })
   } catch (error: any) {
     res.status(500).json({ message: error.message })
   }

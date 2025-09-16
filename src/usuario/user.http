@@ -1,6 +1,6 @@
 
 ### Rest Client Extension
-GET http://localhost:3000/api/usuario/
+GET http://localhost:3000/api/usuario/1
 
 ###
 # @name createEscuderia

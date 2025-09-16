@@ -9,6 +9,8 @@ import { usuarioRouter } from './usuario/usuario.routes.js'
 import { circuitoRouter } from './circuito/circuito.routes.js'
 import { escuderiaRouter } from './escuderia/escuderia.routes.js'
 import { pilotoRouter } from './piloto/piloto.routes.js'
+import { carreraRouter } from './carrera/carrera.routes.js'
+import { resultadoRouter } from './resultado/resultado.routes.js'
 
 
 
@@ -34,6 +36,8 @@ app.use('/api/usuario', usuarioRouter)
 app.use('/api/circuito', circuitoRouter)
 app.use('/api/escuderia', escuderiaRouter)
 app.use('/api/piloto', pilotoRouter)
+app.use('/api/carrera', carreraRouter)
+app.use('/api/resultado', resultadoRouter)
 
 app.use((_, res) => {
     return res.status(404).send({ message: 'Recurso no encontrado' })
