@@ -17,6 +17,8 @@ function sanitizeUsuarioInput(req: Request, res: Response, next: NextFunction) {
         pais: req.body.pais,
         user_img: req.body.user_img,
         rol: req.body.rol,
+        puntos: req.body.puntos,
+        piloto_fav: req.body.piloto_fav || null
     }
 
     Object.keys(req.body.sanitizedUsuarioInput).forEach((key) => {
@@ -52,6 +54,21 @@ async function findOne(req: Request, res: Response) {
 
 async function add(req: Request, res: Response) {
     try {
+        const userData = req.body.sanitizedUsuarioInput;
+
+        // Verificar si el usuario ya existe
+        const existingUser = await em.findOne(Usuario, {
+            $or: [
+                { nombre_usuario: userData.nombre_usuario },
+                { email: userData.email }
+            ]
+        });
+        if (existingUser) {
+            return res.status(409).json({ 
+                message: 'El usuario o email ya existe' 
+            });
+        }
+
         const usuario = em.create(Usuario, req.body)
         await em.flush()
         res.status(201).json({ message: 'usuario creado', data: usuario })
@@ -66,7 +83,7 @@ async function update(req: Request, res: Response) {
     try {
         const id = Number.parseInt(req.params.id)
         const usuario = em.getReference(Usuario, id)
-        em.assign(usuario, req.body)
+        em.assign(usuario, req.body.sanitizedUsuarioInput)
         await em.flush()
         res.status(200).json({ message: 'usuario actualizado con exito' })
     } catch (error: any) {

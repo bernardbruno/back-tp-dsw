@@ -31,7 +31,7 @@ export class Usuario extends BaseEntity {
   @Property({ nullable: false })
   rol!: string;
 
-  @Property()
+  @Property({ default: 0 })
   puntos!: number;
 
   @ManyToOne(()=> Piloto, { nullable: true })
