@@ -74,6 +74,7 @@ async function update(req: Request, res: Response){
         const id = Number.parseInt(req.params.id)
         const piloto = await em.findOneOrFail(Piloto, {id})
         em.assign(piloto, req.body.sanitizedPilotoInput)
+        await em.flush()
     } catch(error:any){
     res.status(500).json({message: error.message})  
     }
