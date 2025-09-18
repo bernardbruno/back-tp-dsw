@@ -33,7 +33,7 @@ export class Piloto extends BaseEntity {
     @Property({nullable: true})    
     piloto_img!:string
 
-    @ManyToOne(() => Escuderia)    
+    @ManyToOne(() => Escuderia, {nullable: true})    
     escuderia!: Rel<Escuderia>
     /*
     @ManyToMany(()=> Carrera, (carrera)=>carrera.pilotos)

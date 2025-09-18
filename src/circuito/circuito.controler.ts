@@ -55,7 +55,7 @@ async function add(req: Request, res: Response) {
             res.status(201).json({message: 'circuito creado', data:circuito})
 
         } catch (error:any){
-            res.status(201).json({message: 'circuito creado', data: error.message})
+            res.status(500).json({message: error.message})
         }
 
 }
