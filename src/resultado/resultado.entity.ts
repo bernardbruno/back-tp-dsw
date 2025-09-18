@@ -12,10 +12,10 @@ export class Resultado {
   carrera!: Carrera;
 
   @Property({nullable: true})
-  posicion!: number;
+  posicion?: number;
 
   @Property({nullable: true})
-  estado!: string //DNF DNS 
+  estado?: string //DNF DNS 
 
   //tiempos?
 }

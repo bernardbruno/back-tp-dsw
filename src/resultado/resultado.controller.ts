@@ -2,12 +2,15 @@ import { Request, Response, NextFunction } from 'express'
 import { orm } from '../shared/db/orm.js'
 import { Resultado } from './resultado.entity.js'
 import { Carrera } from '../carrera/carrera.entity.js'
+import { Piloto } from '../piloto/piloto.entity.js'
 
 const em = orm.em
 em.getRepository(Resultado)
+em.getRepository(Carrera)
 
 function sanitizeResultadoInput(req: Request, res: Response, next: NextFunction) {
     req.body.sanitizedResultadoInput = {
+        pilotos: req.body.pilotos, //validar number[]?
         piloto: req.body.piloto,
         carrera: req.body.carrera,
         posicion: req.body.posicion,
@@ -76,7 +79,7 @@ async function findOne(req: Request, res: Response) {
   }
 }
 
-async function add(req: Request, res: Response) {
+async function addOne(req: Request, res: Response) {
   try {
     const resultado = em.create(Resultado, req.body.sanitizedResultadoInput)
     await em.flush()
@@ -86,6 +89,29 @@ async function add(req: Request, res: Response) {
   } catch (error: any) {
     res.status(500).json({ message: error.message })
   }
+}
+
+async function addResultadosEnCarrera(req: Request, res: Response) {
+    try {
+      const id_carrera = Number.parseInt(req.params.carrera)
+      const carrera = await em.findOneOrFail(Carrera, { id: id_carrera })
+
+      for (const id_piloto of req.body.pilotos){
+        const piloto = await em.findOneOrFail(Piloto, id_piloto)
+
+        const resultado = await em.create(Resultado, {
+          piloto: piloto,
+          carrera: carrera
+        })
+      }
+
+      await em.flush()
+      
+      res.status(200).json({message: 'Se crearon las relaciones de pilotos con la carrera', data: {carrera: carrera}})
+      
+    } catch (error:any) {
+      res.status(500).json ({message: error.message})
+    }
 }
 
 async function update(req: Request, res: Response) {
@@ -127,7 +153,8 @@ export {
   findAll,
   findAllPorCarrera,
   findOne,
-  add,
+  addOne,
   update,
   remove,
+  addResultadosEnCarrera
 }
