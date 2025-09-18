@@ -44,6 +44,22 @@ async function findAll(req: Request, res:Response) {
     }
 
 }
+
+async function findAllActivos(req: Request, res:Response) {
+    try {
+        const pilotos = await em.find(
+            Piloto,
+            {estado: 'activo'},
+            {populate: ['escuderia']}
+        )
+        res.status(200).json({message: 'Buscar todos los pilotos', data: pilotos})
+        
+    }catch(error:any) {
+        res.status(500).json({message: error.message})
+    }
+
+}
+
 async function findOne(req: Request, res: Response){
     try {
         const id = Number.parseInt(req.params.id)
@@ -91,4 +107,4 @@ async function remove(req: Request, res: Response){
     }  
 }
 
-export {sanitizePilotoInput, findAll, findOne, add, update, remove}
+export {sanitizePilotoInput, findAll, findAllActivos, findOne, add, update, remove}
