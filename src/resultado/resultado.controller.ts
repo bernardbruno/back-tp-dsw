@@ -10,7 +10,6 @@ em.getRepository(Carrera)
 
 function sanitizeResultadoInput(req: Request, res: Response, next: NextFunction) {
     req.body.sanitizedResultadoInput = {
-        pilotos: req.body.pilotos, //validar number[]?
         piloto: req.body.piloto,
         carrera: req.body.carrera,
         posicion: req.body.posicion,
@@ -25,6 +24,43 @@ function sanitizeResultadoInput(req: Request, res: Response, next: NextFunction)
 
   next()
 }
+
+function sanitizeManyResultadosInput(req: Request, res: Response, next: NextFunction) {
+    const raw_pilotos = req.body.pilotos
+
+    if (!Array.isArray(raw_pilotos)) {
+      return res.status(400).json({message: "pilotos debe ser un array"})
+    }
+
+    const sanitized_pilotos = []
+    for (let i = 0; i < raw_pilotos.length; i++){
+      const piloto = raw_pilotos[i]
+      if (typeof piloto !== 'object' || piloto === null) {
+        return res.status(400).json({message: `El piloto en la posición ${i} no es un objeto`})
+      }
+      if (piloto.posicion !== undefined) {
+        const pos = Number(piloto.posicion)
+        if (Number.isNaN(pos)|| !Number.isInteger(pos) || pos < 0){
+          return res.status(400).json({message: `El campo 'posicion' del piloto ${i} es inválido`})
+      }}
+      if (piloto.estado !== undefined){
+        if (typeof piloto.estado !== 'string'){
+          return res.status(400).json({message: `El campo 'estado' en posición ${i} es inválido`})
+      }}
+      
+      sanitized_pilotos.push({
+      id: piloto.id,
+      ...(piloto.posicion !== undefined ? { posicion: piloto.posicion } : {}),
+      ...(piloto.estado !== undefined ? { estado: piloto.estado } : {}),
+      })
+    }
+
+    req.body.sanitized_pilotos = sanitized_pilotos
+
+  next()
+}
+
+
 
 async function findAll(req: Request, res: Response) {
   try {
@@ -96,7 +132,7 @@ async function addResultadosEnCarrera(req: Request, res: Response) {
       const id_carrera = Number.parseInt(req.params.carrera)
       const carrera = await em.findOneOrFail(Carrera, { id: id_carrera })
 
-      for (const id_piloto of req.body.pilotos){
+      for (const id_piloto of req.body.sanitized_pilotos){
         const piloto = await em.findOneOrFail(Piloto, id_piloto)
 
         const resultado = await em.create(Resultado, {
@@ -112,9 +148,10 @@ async function addResultadosEnCarrera(req: Request, res: Response) {
     } catch (error:any) {
       res.status(500).json ({message: error.message})
     }
+    //res.status(299).json({data: req.body.sanitized_pilotos})
 }
 
-async function update(req: Request, res: Response) {
+async function updateOne(req: Request, res: Response) {
   try {
     const piloto_id = Number.parseInt(req.params.piloto)
     const carrera_id = Number.parseInt(req.params.carrera)
@@ -128,6 +165,32 @@ async function update(req: Request, res: Response) {
   } catch (error: any) {
     res.status(500).json({ message: error.message })
   }
+}
+
+async function updateMany(req: Request, res: Response) {
+  try {
+      const id_carrera = Number.parseInt(req.params.carrera)
+      const carrera = await em.findOneOrFail(Carrera, { id: id_carrera })
+
+      for (const res_piloto of req.body.sanitized_pilotos){
+        const id_piloto = res_piloto.id
+        const referency_piloto = await em.findOneOrFail(Piloto, id_piloto)
+
+        const resultado = await em.findOneOrFail(Resultado, {
+          piloto: referency_piloto,
+          carrera: carrera,
+        })
+        const resultado_act = em.assign(resultado, res_piloto)        
+      }
+
+      await em.flush()
+      
+      res.status(200).json({message: 'resultados actualizados con exito', data: {carrera: carrera}})
+            
+    } catch (error:any) {
+      res.status(500).json ({message: error.message})
+    }
+  //res.status(299).json({message: "updateMany"})
 }
 
 async function remove(req: Request, res: Response) {
@@ -150,11 +213,13 @@ async function remove(req: Request, res: Response) {
 
 export {
   sanitizeResultadoInput,
+  sanitizeManyResultadosInput,
   findAll,
   findAllPorCarrera,
   findOne,
   addOne,
-  update,
+  updateOne,
   remove,
-  addResultadosEnCarrera
+  addResultadosEnCarrera,
+  updateMany
 }

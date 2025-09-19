@@ -1,14 +1,20 @@
 import { Router } from 'express'
-import { sanitizeResultadoInput, findAll, findAllPorCarrera,
-        findOne, addOne, update, remove, addResultadosEnCarrera } from './resultado.controller.js'
+import { sanitizeResultadoInput, sanitizeManyResultadosInput,
+         findAll, findAllPorCarrera,
+        findOne, addOne, updateOne, remove, addResultadosEnCarrera, updateMany } from './resultado.controller.js'
 
 export const resultadoRouter = Router()
 
 resultadoRouter.get('/', findAll)
 resultadoRouter.get('/:carrera', findAllPorCarrera)
 resultadoRouter.get('/:carrera/:piloto', findOne)
-resultadoRouter.post('/:carrera', sanitizeResultadoInput, addResultadosEnCarrera)
+
+resultadoRouter.post('/:carrera', sanitizeManyResultadosInput, addResultadosEnCarrera)
 resultadoRouter.post('/', sanitizeResultadoInput, addOne)
-resultadoRouter.put('/:carrera/:piloto', sanitizeResultadoInput, update)
-resultadoRouter.patch('/:carrera/:piloto', sanitizeResultadoInput, update)
+
+resultadoRouter.put('/:carrera', sanitizeManyResultadosInput, updateMany)
+resultadoRouter.patch('/:carrera', sanitizeManyResultadosInput, updateMany)
+resultadoRouter.put('/:carrera/:piloto', sanitizeResultadoInput, updateOne)
+resultadoRouter.patch('/:carrera/:piloto', sanitizeResultadoInput, updateOne)
+
 resultadoRouter.delete('/:carrera/:piloto', remove)

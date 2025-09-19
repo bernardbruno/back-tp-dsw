@@ -6,10 +6,10 @@ GET http://localhost:3000/api/piloto/
 ###
 GET http://localhost:3000/api/resultado
 ###
-GET http://localhost:3000/api/resultado/2/1
+GET http://localhost:3000/api/resultado/3/1
 
 ###
-GET http://localhost:3000/api/resultado/3
+GET http://localhost:3000/api/resultado/4
 
 ###
 POST http://localhost:3000/api/resultado/
@@ -20,12 +20,24 @@ Content-Type: application/json
     "carrera": 3
 }
 ###
-POST http://localhost:3000/api/resultado/1
+POST http://localhost:3000/api/resultado/2
 Content-Type: application/json
 
 {
-    "pilotos": 1
+    "pilotos": [ 4, 5] 
 }
+
+###
+POST http://localhost:3000/api/resultado/4
+Content-Type: application/json
+
+{
+    "pilotos": [
+        {"id": 1},
+        {"id": 3}
+    ]
+}
+
 
 
 
@@ -44,4 +56,30 @@ Content-Type: application/json
 {
     "posicion": 1
 }
+
+###
+PUT http://localhost:3000/api/resultado/4
+Content-Type: application/json
+
+{
+    "pilotos": [
+        {"id": 4},
+        {"id": 5}
+    ]
+}
+###
+PUT http://localhost:3000/api/resultado/4
+Content-Type: application/json
+
+{
+    "pilotos": [
+        {"id": 4,
+        "posicion": 1,
+        "estado": "vivo"},
+        {"id": 5,
+        "posicion": 2}
+    ]
+}
+###
+DELETE  http://localhost:3000/api/resultado/2/5
 
