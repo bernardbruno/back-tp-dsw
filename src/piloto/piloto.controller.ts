@@ -91,6 +91,9 @@ async function update(req: Request, res: Response){
         const piloto = await em.findOneOrFail(Piloto, {id})
         em.assign(piloto, req.body.sanitizedPilotoInput)
         await em.flush()
+
+        const piloto_actualizado = await em.findOneOrFail(Piloto, {id}, {populate: ['escuderia']})
+        res.status(200).json({message: 'Piloto actualizado con exito', data: piloto_actualizado})
     } catch(error:any){
     res.status(500).json({message: error.message})  
     }

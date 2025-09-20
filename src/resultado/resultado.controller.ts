@@ -82,7 +82,8 @@ async function findAllPorCarrera(req: Request, res: Response) {
     const id = Number.parseInt(req.params.carrera)
     const carrera = await em.findOneOrFail(
         Carrera,
-        { id }
+        { id },
+        {populate: ['vuelta_rapida', 'pole', 'circuito']}
     )
     const resultados = await em.find(
       Resultado,

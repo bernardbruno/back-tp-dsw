@@ -15,6 +15,6 @@ export class Circuito extends BaseEntity {
     @Property({nullable: false})    
     vueltas!:number
     
-    @Property({nullable: false})    
+    @Property({type: 'decimal', precision: 10, scale: 3, nullable: false})    
     longitud_km!:number
 }
