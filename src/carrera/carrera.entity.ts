@@ -19,11 +19,14 @@ export class Carrera extends BaseEntity {
     @Property({nullable: false})    
     hora_carrera!:number
 
-    @ManyToOne(()=> Piloto, {nullable: true})
-    vuelta_rapida!: Rel<Piloto>
+    @Property({nullable: false, default: 'en preparacion' })
+    estado!:string                          //'en preparacion', 'disponible', 'completada'
 
     @ManyToOne(()=> Piloto, {nullable: true})
-    pole!: Rel<Piloto>
+    vuelta_rapida?: Rel<Piloto> | null
+
+    @ManyToOne(()=> Piloto, {nullable: true})
+    pole?: Rel<Piloto>| null
 
     /*
     @ManyToMany(()=> Piloto, (piloto)=> piloto.carreras, 

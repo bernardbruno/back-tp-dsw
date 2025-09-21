@@ -12,6 +12,7 @@ function sanitizeCarreraInput(req: Request, res: Response, next: NextFunction) {
     numero: req.body.numero,
     fecha_carrera: req.body.fecha_carrera,
     hora_carrera: req.body.hora_carrera,
+    estado: req.body.estado,
     vuelta_rapida: req.body.vuelta_rapida,
     pole: req.body.pole,
     circuito: req.body.circuito

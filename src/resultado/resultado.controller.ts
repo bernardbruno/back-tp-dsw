@@ -202,11 +202,25 @@ async function remove(req: Request, res: Response) {
         Resultado,
         { piloto: pilotoId, carrera: carreraId }
     );
+
+    const carrera = await em.findOneOrFail(Carrera, carreraId, {populate: ['pole', 'vuelta_rapida']})
+    
+    let changed = false
+
+    if (carrera.pole && carrera.pole.id === pilotoId) {
+      carrera.pole = null
+      changed = true
+    }
+    if (carrera.vuelta_rapida && carrera.vuelta_rapida.id === pilotoId) {
+      carrera.vuelta_rapida = null
+      changed = true
+    }
+
     await em.removeAndFlush(resultado);
 
     res
       .status(200)
-      .json({ message: 'Resultado eliminado con éxito' })
+      .json({ message: 'Resultado eliminado con éxito'})
   } catch (error: any) {
     res.status(500).json({ message: error.message })
   }
