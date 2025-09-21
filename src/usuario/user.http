@@ -1,6 +1,6 @@
 
 ### Rest Client Extension
-GET http://localhost:3000/api/usuario/1
+GET http://localhost:3000/api/usuario/
 
 ###
 # @name createEscuderia
@@ -51,15 +51,21 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:3000/api/usuario/3
+PATCH http://localhost:3000/api/usuario/1
 Content-Type: application/json
 
 {
-    "nombre": "Oracle Red Bull Racing",
-    "pais_base": "Reino Unido",
-    "jefe_equipo": "Christian Horner",
-    "motor": "Red Bull Powertrains"
+    "piloto_fav": 1
 }
 
 ###
 DELETE http://localhost:3000/api/usuario/{{id}}
+
+###
+POST http://localhost:3000/api/usuario/login
+Content-Type: application/json
+
+{
+  "nombre_usuario": "administrador",
+  "password": "123456"
+}

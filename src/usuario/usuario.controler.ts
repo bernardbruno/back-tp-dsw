@@ -13,7 +13,7 @@ function sanitizeUsuarioInput(req: Request, res: Response, next: NextFunction) {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         email: req.body.email,
-        password: req.body.password,
+        password: Usuario.hashPassword(req.body.password),
         pais: req.body.pais,
         user_img: req.body.user_img,
         rol: req.body.rol,
@@ -21,7 +21,7 @@ function sanitizeUsuarioInput(req: Request, res: Response, next: NextFunction) {
         piloto_fav: req.body.piloto_fav || null
     }
 
-    Object.keys(req.body.sanitizedUsuarioInput).forEach((key) => {
+        Object.keys(req.body.sanitizedUsuarioInput).forEach((key) => {
         if (req.body.sanitizedUsuarioInput[key] === undefined) {
             delete req.body.sanitizedUsuarioInput[key]
         }
@@ -108,17 +108,17 @@ async function remove(req: Request, res: Response) {
 
 async function login(req: Request, res: Response) {
     try {
-        const { nombre_usuario, password } = req.body;
+        const nombre_usuario = req.body.sanitizedUsuarioInput.nombre_usuario
+        const password = req.body.sanitizedUsuarioInput.password
         if (!nombre_usuario || !password) {
             return res.status(400).json({
                 message: 'Nombre de usuario y contraseña son requeridos'
             });
         }
         const usuario = await em.findOne(Usuario, {
-            nombre_usuario,
-            password
+            nombre_usuario
         });
-        if (!usuario) {
+        if (!usuario || usuario.password !== password) {
             return res.status(401).json({
                 message: 'Credenciales inválidas'
             });
