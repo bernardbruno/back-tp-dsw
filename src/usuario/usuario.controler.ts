@@ -108,8 +108,7 @@ async function remove(req: Request, res: Response) {
 
 async function login(req: Request, res: Response) {
     try {
-        const nombre_usuario = req.body.sanitizedUsuarioInput.nombre_usuario
-        const password = req.body.sanitizedUsuarioInput.password
+        const { nombre_usuario, password } = req.body.sanitizedUsuarioInput;
         if (!nombre_usuario || !password) {
             return res.status(400).json({
                 message: 'Nombre de usuario y contraseña son requeridos'

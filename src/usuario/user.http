@@ -61,20 +61,3 @@ Content-Type: application/json
 ###
 DELETE http://localhost:3000/api/usuario/{{id}}
 
-###
-POST http://localhost:3000/api/usuario/login
-Content-Type: application/json
-
-{
-  "nombre_usuario": "administrador",
-  "password": "123456"
-}
-
-###
-POST http://localhost:3000/api/usuario/login
-Content-Type: application/json
-
-{
-  "nombre_usuario": "bruno",
-  "password": "admin123"
-}

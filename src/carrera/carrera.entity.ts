@@ -10,9 +10,6 @@ export class Carrera extends BaseEntity {
     @Property({nullable: false})    
     nombre!:string
 
-    @Property()    
-    numero!:number
-
     @Property({nullable: false})    
     fecha_carrera!:Date
 

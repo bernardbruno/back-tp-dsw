@@ -9,7 +9,6 @@ function sanitizeCarreraInput(req: Request, res: Response, next: NextFunction) {
 
   req.body.sanitizedCarreraInput = {
     nombre: req.body.nombre,
-    numero: req.body.numero,
     fecha_carrera: req.body.fecha_carrera,
     hora_carrera: req.body.hora_carrera,
     estado: req.body.estado,
