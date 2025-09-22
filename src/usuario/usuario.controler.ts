@@ -69,9 +69,9 @@ async function add(req: Request, res: Response) {
             });
         }
 
-        const usuario = em.create(Usuario, req.body)
+        const usuario = em.create(Usuario, userData)
         await em.flush()
-        res.status(201).json({ message: 'usuario creado', data: usuario })
+        res.status(201).json({ message: 'usuario creado'})
 
     } catch (error: any) {
         res.status(500).json({ message: error.message })
