@@ -16,9 +16,9 @@ import { resultadoRouter } from './resultado/resultado.routes.js'
 
 const app = express ()
 
-const corsOptions = {               // Lo puso Bruno 
-  origin: 'http://localhost:5173', // Permite solicitudes desde el frontend
-  methods: 'GET,POST,PUT,DELETE', // Métodos permitidos
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  methods: 'GET,POST,PUT,DELETE,PATCH', // Métodos permitidos
 }
 app.use(cors(corsOptions)); // Permite que React consuma la API
 

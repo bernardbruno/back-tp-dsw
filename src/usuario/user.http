@@ -33,6 +33,21 @@ Content-Type: application/json
   "rol": "admin"
 }
 
+### Crear Usuario Inicial
+POST http://localhost:3000/api/usuario/
+Content-Type: application/json
+
+{
+  "nombre_usuario": "user",
+  "nombre": "user",
+  "apellido": "example",
+  "email": "user@example.com",
+  "password": "user123",  
+  "pais": "Afganistán",
+  "user_img": null,
+  "rol": "user"
+}
+
 ### ID
 @id = {{createEscuderia.response.body.data.id}}
 
