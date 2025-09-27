@@ -52,7 +52,7 @@ async function findOne(req: Request, res: Response){
 
 async function add(req: Request, res: Response) {
         try{
-            const escuderia = em.create(Escuderia, req.body)
+            const escuderia = em.create(Escuderia, req.body.sanitizedEscuderiaInput)
             await em.flush()
             res.status(201).json({message: 'escuderia creada', data:escuderia})
 
@@ -66,7 +66,7 @@ async function update(req: Request, res: Response){
         try{
             const id = Number.parseInt(req.params.id)
             const escuderia = em.getReference(Escuderia, id)
-            em.assign(escuderia, req.body)
+            em.assign(escuderia, req.body.sanitizedEscuderiaInput)
             await em.flush()
             res.status(200).json({message: 'escuderia actualizada con exito'})
         } catch (error:any){

@@ -50,7 +50,7 @@ async function findOne(req: Request, res: Response){
 
 async function add(req: Request, res: Response) {
         try{
-            const circuito = em.create(Circuito, req.body)
+            const circuito = em.create(Circuito, req.body.sanitizedCircuitoInput)
             await em.flush()
             res.status(201).json({message: 'circuito creado', data:circuito})
 
@@ -64,7 +64,7 @@ async function update(req: Request, res: Response){
         try{
             const id = Number.parseInt(req.params.id)
             const circuito = em.getReference(Circuito, id)
-            em.assign(circuito, req.body)
+            em.assign(circuito, req.body.sanitizedCircuitoInput)
             await em.flush()
             res.status(200).json({message: 'circuito actualizado con exito'})
         } catch (error:any){
