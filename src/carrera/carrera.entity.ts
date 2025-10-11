@@ -34,7 +34,7 @@ export class Carrera extends BaseEntity {
     @ManyToOne(()=> Circuito, {nullable: false})
     circuito!: Circuito
 
-    @OneToMany(() => Resultado, r => r.carrera, {nullable: true, cascade: [Cascade.ALL],
+    @OneToMany(() => Resultado, r => r.carrera, {nullable: true, cascade: [Cascade.ALL], orphanRemoval: true 
     })
     resultados = new Collection<Resultado>(this);
 }
