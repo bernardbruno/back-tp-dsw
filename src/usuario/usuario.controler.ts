@@ -7,8 +7,33 @@ em.getRepository(Usuario)
 
 
 function sanitizeUsuarioInput(req: Request, res: Response, next: NextFunction) {
+    //aca tendrian q hacerse mas validaciones
+    if (req.body.nombre_usuario) {
+        if (req.body.nombre_usuario.length < 4 || req.body.nombre_usuario.length > 20) {
+            return res.status(400).json({ 
+                message: 'El nombre de usuario debe tener entre 4 y 20 caracteres' 
+            });
+        }
+    }
 
-    req.body.sanitizedUsuarioInput = {        //aca tendrian q hacerse mas validaciones
+    if (req.body.password) {
+        if (req.body.password.length < 6) {
+            return res.status(400).json({ 
+                message: 'La contraseña debe tener mínimo 6 caracteres' 
+            });
+        }
+    }
+
+    if (req.body.email) {
+        const emailRegex = /^\S+@\S+$/i;
+        if (!emailRegex.test(req.body.email)) {
+            return res.status(400).json({ 
+                message: 'Email inválido' 
+            });
+        }
+    }
+
+    req.body.sanitizedUsuarioInput = {        
         nombre_usuario: req.body.nombre_usuario,
         nombre: req.body.nombre,
         apellido: req.body.apellido,
@@ -56,6 +81,13 @@ async function add(req: Request, res: Response) {
     try {
         const userData = req.body.sanitizedUsuarioInput;
 
+        // Validar campos requeridos
+        if (!userData.nombre_usuario || !userData.email || !userData.password) {
+            return res.status(400).json({
+                message: 'Nombre de usuario, email y contraseña son requeridos'
+            });
+        }
+
         // Verificar si el usuario ya existe
         const existingUser = await em.findOne(Usuario, {
             $or: [
@@ -64,14 +96,23 @@ async function add(req: Request, res: Response) {
             ]
         });
         if (existingUser) {
-            return res.status(409).json({ 
-                message: 'El usuario o email ya existe' 
-            });
+            if (existingUser.nombre_usuario === userData.nombre_usuario) {
+                return res.status(409).json({
+                    message: 'Este nombre de usuario ya está registrado'
+                });
+            } else {
+                return res.status(409).json({
+                    message: 'Este email ya está registrado'
+                });
+            }
         }
 
         const usuario = em.create(Usuario, userData)
         await em.flush()
-        res.status(201).json({ message: 'usuario creado'})
+
+        const { password, ...usuarioSinPassword } = usuario
+        
+        res.status(201).json({ message: 'usuario creado', data: usuarioSinPassword})
 
     } catch (error: any) {
         res.status(500).json({ message: error.message })
@@ -122,6 +163,13 @@ async function login(req: Request, res: Response) {
                 message: 'Credenciales inválidas'
             });
         }
+
+        if (usuario.password !== password) {
+            return res.status(401).json({
+                message: 'Usuario o contraseña incorrectos'
+            });
+        }
+
         // No enviar la contraseña en la respuesta
         const { password: _, ...usuarioSinPassword } = usuario;
         res.status(200).json({
