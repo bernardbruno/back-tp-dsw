@@ -1,0 +1,17 @@
+###
+GET http://localhost:3000/api/predict/2/8
+###
+POST http://localhost:3000/api/predict/2
+Content-Type: application/json
+
+{
+    "usuario": 9,
+    "pole": 1,
+    "puesto1": 1,
+    "puesto2": 3,
+    "puesto3": 4,
+    "no_termina": 5,
+    "vuelta_rapida": 5,
+    "posicion_colapinto": 12,
+    "fecha": "2025-10-12"
+}

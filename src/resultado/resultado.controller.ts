@@ -92,7 +92,7 @@ async function findAllPorCarrera(req: Request, res: Response) {
     )
     res
       .status(200)
-      .json({ message: 'Buscar todos los resultados', data: {carrera: carrera, resultados: resultados}})
+      .json({ message: 'Buscar todos los resultados de una carrera', data: {carrera: carrera, resultados: resultados}})
   } catch (error: any) {
     res.status(500).json({ message: error.message })
   }
