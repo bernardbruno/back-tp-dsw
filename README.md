@@ -27,7 +27,6 @@ Es necesario previamente tener instalado:
 1. El Gestor de Paquetes (para este ejemplo utilizaremos pnpm, version 10.15.0)
 2. Node.js v20.19.4
 3. El motor de base de datos (MySql).
-
 La base de datos se generará automáticamente, pero es necesario un usuario con credenciales válidas.
 Estas credenciales se pueden incluir en el 'ClienteURL' del archivo `src\shared\db\orm.ts`
 ---
