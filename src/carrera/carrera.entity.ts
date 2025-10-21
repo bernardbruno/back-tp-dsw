@@ -25,12 +25,6 @@ export class Carrera extends BaseEntity {
     @ManyToOne(()=> Piloto, {nullable: true})
     pole?: Rel<Piloto>| null
 
-    /*
-    @ManyToMany(()=> Piloto, (piloto)=> piloto.carreras, 
-                {cascade: [Cascade.ALL], owner: true})
-    pilotos!: Piloto[]
-    */
-
     @ManyToOne(()=> Circuito, {nullable: false})
     circuito!: Circuito
 

@@ -19,7 +19,7 @@ const app = express ()
 
 const corsOptions = {
   origin: 'http://localhost:5173',
-  methods: 'GET,POST,PUT,DELETE,PATCH', // Métodos permitidos
+  methods: 'GET,POST,PUT,DELETE,PATCH', 
 }
 app.use(cors(corsOptions)); // Permite que React consuma la API
 

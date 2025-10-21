@@ -9,7 +9,7 @@ em.getRepository(Circuito)
 function sanitizeCircuitoInput(req: Request, res: Response, next: NextFunction){
 
     req.body.sanitizedCircuitoInput = {        //aca tendrian q hacerse mas validaciones
-        id:req.body.id,                     //borrar
+        id:req.body.id,                     
         nombre: req.body.nombre,
         ubicacion: req.body.ubicacion,
         pais: req.body.pais,
@@ -87,6 +87,4 @@ async function remove(req: Request, res: Response){
     }
 }
 
-
-//export {sanitizeCircuitoInput, findAll, findOne, add, update, remove}
 export {sanitizeCircuitoInput, findAll, findOne, add, update, remove}

@@ -9,7 +9,7 @@ em.getRepository(Piloto)
 function sanitizePilotoInput(req: Request, res: Response, next: NextFunction){
 
     req.body.sanitizedPilotoInput = {        //aca tendrian q hacerse mas validaciones
-        nombre:req.body.nombre,                     //borrar
+        nombre:req.body.nombre,                     
         apellido: req.body.apellido,
         nacionalidad: req.body.nacionalidad,
         numero: req.body.numero,

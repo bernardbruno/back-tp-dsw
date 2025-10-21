@@ -1,3 +1,4 @@
+//ALCANCE PARA AD
 import { Router } from 'express'
 import { sanitizePredictInput, findAllPorCarrera, findOne,
         add } from './predict.controller.js'

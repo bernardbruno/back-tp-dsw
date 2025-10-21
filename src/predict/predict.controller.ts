@@ -1,3 +1,5 @@
+//ALCANCE PARA AD
+
 import { Request, Response, NextFunction } from 'express'
 import { orm } from "../shared/db/orm.js"
 import { Carrera } from '../carrera/carrera.entity.js'

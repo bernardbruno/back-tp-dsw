@@ -149,7 +149,7 @@ async function addResultadosEnCarrera(req: Request, res: Response) {
     } catch (error:any) {
       res.status(500).json ({message: error.message})
     }
-    //res.status(299).json({data: req.body.sanitized_pilotos})
+    
 }
 
 async function updateOne(req: Request, res: Response) {
@@ -191,7 +191,7 @@ async function updateMany(req: Request, res: Response) {
     } catch (error:any) {
       res.status(500).json ({message: error.message})
     }
-  //res.status(299).json({message: "updateMany"})
+  
 }
 
 async function remove(req: Request, res: Response) {

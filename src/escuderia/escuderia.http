@@ -1,6 +1,6 @@
 
 ### Rest Client Extension
-GET http://localhost:3000/api/escuderia/
+GET http://localhost:3000/api/escuderia/5
 
 ###
 # @name createEscuderia
@@ -8,11 +8,30 @@ POST http://localhost:3000/api/escuderia
 Content-Type: application/json
 
 {   
-    "nombre": "Scuderia Ferrari",
+    "nombre": "Scuderia Skywalker Reicing",
     "pais_base": "Italia",
-    "jefe_equipo": "Frédéric Vasseur",
-    "motor": "Ferrari"
+    "debut": "Premio Argentina 1950",
+    "jefe_equipo": "Luke Skywalker",
+    "motor": "Ferrari",
+    "auto_img": "",
+    "logo": ""
 }
+###
+PATCH http://localhost:3000/api/escuderia/5
+Content-Type: application/json
+
+{   
+    "nombre": "Scuderia Skywalker Reicing",
+    "pais_base": "Italia",
+    "debut": "Gran Premio Argentina 1950",
+    "jefe_equipo": "Luke Skywalker",
+    "motor": "Ferrari",
+    "auto_img": "",
+    "logo": ""
+}
+###
+DELETE http://localhost:3000/api/escuderia/5
+
 ### ID
 @id = {{createEscuderia.response.body.data.id}}
 

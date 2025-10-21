@@ -1,4 +1,4 @@
-// src/modules/resultado/resultado.entity.ts
+//ALCANCE PARA AD
 import {  Entity, ManyToOne, Property, Rel } from '@mikro-orm/core';
 import { Piloto } from '../piloto/piloto.entity.js';
 import { Carrera } from '../carrera/carrera.entity.js';
