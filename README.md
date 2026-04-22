@@ -46,4 +46,4 @@ Estas credenciales se pueden incluir en el 'ClienteURL' del archivo `src\shared\
 
 5. Ejecutar en modo desarrollo:
    
-    `pnpm run start:dev`
+    `pnpm run dev`
