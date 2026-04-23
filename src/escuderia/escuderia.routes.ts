@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { sanitizeEscuderiaInput, findAll, findOne, add, update, remove} from './escuderia.controler.js'
+import { sanitizeEscuderiaInput, findAll, findOne, add, update, remove} from './escuderia.controller.js'
 
 export const escuderiaRouter = Router()
 

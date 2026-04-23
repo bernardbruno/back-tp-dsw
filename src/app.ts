@@ -1,5 +1,8 @@
 import express, { Request ,Response , NextFunction } from 'express'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
+import dotenv from 'dotenv';
+
 
 import 'reflect-metadata'
 import { orm, syncSchema } from './shared/db/orm.js'
@@ -14,16 +17,20 @@ import { resultadoRouter } from './resultado/resultado.routes.js'
 import { predictRouter } from './predict/predict.routes.js'
 
 
+dotenv.config()
 
 const app = express ()
 
 const corsOptions = {
-  origin: 'http://localhost:5173',
-  methods: 'GET,POST,PUT,DELETE,PATCH', 
+  origin: process.env.FRONT_URL,
+  methods: 'GET,POST,PUT,DELETE,PATCH',
+  credentials: true
 }
 app.use(cors(corsOptions)); // Permite que React consuma la API
 
 app.use(express.json())
+
+app.use(cookieParser())
 
 app.use((req, res, next) =>{
   RequestContext.create(orm.em, next)
@@ -41,10 +48,18 @@ app.use('/api/carrera', carreraRouter)
 app.use('/api/resultado', resultadoRouter)
 app.use('/api/predict', predictRouter)
 
+app.get('/debug-cookie', (req, res) => {
+  console.log('Cookies recibidas:', req.cookies);  // { accessToken: 'jwt...' }
+  res.json({ cookies: req.cookies });
+});
+
 app.use((_, res) => {
     return res.status(404).send({ message: 'Recurso no encontrado' })
 })
 
-app.listen(3000, ()=> {
-    console.log("Server running on http://localhost:3000")
+const port = process.env.PORT
+const url = process.env.BACK_URL 
+
+app.listen(port, ()=> {
+    console.log(`Server running on ${url}:${port}`)
 })

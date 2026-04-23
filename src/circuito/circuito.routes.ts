@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { sanitizeCircuitoInput, findAll, findOne, add, update, remove} from './circuito.controler.js'
+import { sanitizeCircuitoInput, findAll, findOne, add, update, remove} from './circuito.controller.js'
 
 export const circuitoRouter = Router()
 

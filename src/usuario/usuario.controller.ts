@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import { orm } from "../shared/db/orm.js";
 import { Usuario } from "./usuario.entity.js";
+import jwt from "jsonwebtoken";
+
 
 const em = orm.em
 em.getRepository(Usuario)
@@ -163,7 +165,10 @@ async function login(req: Request, res: Response) {
                 message: 'Credenciales inválidas'
             });
         }
-
+        console.log(usuario.password)
+        console.log(password)
+        
+        console.log(usuario.password === password)
         if (usuario.password !== password) {
             return res.status(401).json({
                 message: 'Usuario o contraseña incorrectos'
@@ -172,7 +177,23 @@ async function login(req: Request, res: Response) {
 
         // No enviar la contraseña en la respuesta
         const { password: _, ...usuarioSinPassword } = usuario;
-        res.status(200).json({
+        const jwtKey = process.env.JWT_SECRET_KEY
+        if(!jwtKey){
+            return res.status(500).json({message: 'No se pudo encontrar la clave de autorización'})
+        }
+        
+        const token = jwt.sign({ id: usuario.id, nombre_usuario: usuario.nombre_usuario },
+                                 process.env.JWT_SECRET_KEY!,
+                                {expiresIn: '1h'});
+        res
+            .status(200)
+            .cookie('accessToken', token, {
+                httpOnly: true,
+                secure: process.env.HTTPS_USE === 'true',
+                sameSite: 'strict',
+                maxAge: 2 * 60 * 60 * 1000
+            })
+            .json({
             message: 'Login exitoso',
             data: usuarioSinPassword
         });

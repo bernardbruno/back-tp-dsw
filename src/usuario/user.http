@@ -76,3 +76,11 @@ Content-Type: application/json
 ###
 DELETE http://localhost:3000/api/usuario/{{id}}
 
+### login
+POST http://localhost:3000/api/usuario/login/
+Content-Type: application/json
+
+{
+  "nombre_usuario": "test44",
+  "password": "123123"  
+}
