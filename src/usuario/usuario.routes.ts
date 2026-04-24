@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { sanitizeUsuarioInput, findAll, findOne, add, update, remove, login} from './usuario.controller.js'
+import { sanitizeUsuarioInput, findAll, findOne, add, update, remove, login, logout} from './usuario.controller.js'
 
 export const usuarioRouter = Router()
 
@@ -10,3 +10,4 @@ usuarioRouter.put('/:id', sanitizeUsuarioInput, update)
 usuarioRouter.patch('/:id', sanitizeUsuarioInput, update)
 usuarioRouter.delete('/:id', remove)
 usuarioRouter.post('/login',sanitizeUsuarioInput, login);
+usuarioRouter.post('/logout', logout);

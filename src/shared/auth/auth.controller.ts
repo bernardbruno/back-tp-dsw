@@ -33,8 +33,20 @@ function verifyToken(req: Request, res: Response, next: NextFunction){
         }
         
     } catch (error: any) {
+        if (error.name !== 'TokenExpiredError') {
         return res.status(500).json({ message: error.message });
+        }
     }
+
+    next()
 }
 
-export {generateToken, verifyToken}
+function identifyAuth(req: Request, res: Response, next: NextFunction){
+    const usuario = req.user
+    if(usuario){
+        return res.status(200).json({message: 'Usuario identificado', data: usuario})
+    }
+    return res.status(200).json({message: "No hay una sesion de usuario identificada"})
+}
+
+export {generateToken, verifyToken, identifyAuth}

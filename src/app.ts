@@ -15,14 +15,18 @@ import { pilotoRouter } from './piloto/piloto.routes.js'
 import { carreraRouter } from './carrera/carrera.routes.js'
 import { resultadoRouter } from './resultado/resultado.routes.js'
 import { predictRouter } from './predict/predict.routes.js'
+import { verifyToken } from './shared/auth/auth.controller.js';
+import { authRouter } from './shared/auth/auth.routes.js';
 
 
 dotenv.config()
 
 const app = express ()
 
+const UrlFront = process.env.FRONT_URL
+
 const corsOptions = {
-  origin: process.env.FRONT_URL,
+  origin: UrlFront,
   methods: 'GET,POST,PUT,DELETE,PATCH',
   credentials: true
 }
@@ -40,6 +44,9 @@ await syncSchema() //never in production
 
 //middelwares rutas y negocio
 
+app.use(verifyToken)
+
+app.use('/api/auth', authRouter)
 app.use('/api/usuario', usuarioRouter)
 app.use('/api/circuito', circuitoRouter)
 app.use('/api/escuderia', escuderiaRouter)

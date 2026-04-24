@@ -202,4 +202,18 @@ async function login(req: Request, res: Response) {
     }
 }
 
-export { sanitizeUsuarioInput, findAll, findOne, add, update, remove, login }
+function logout(req: Request, res: Response, next: NextFunction){
+    try{
+        res.clearCookie('accessToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict'
+        });
+
+        res.json({ message: 'Logout exitoso' });
+    } catch (error: any){
+        res.status(500).json({message: error.message})
+    }
+}
+
+export { sanitizeUsuarioInput, findAll, findOne, add, update, remove, login, logout }
