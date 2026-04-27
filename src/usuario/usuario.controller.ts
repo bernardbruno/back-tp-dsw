@@ -182,7 +182,7 @@ async function login(req: Request, res: Response) {
             return res.status(500).json({message: 'No se pudo encontrar la clave de autorización'})
         }
         
-        const token = jwt.sign({ id: usuario.id, nombre_usuario: usuario.nombre_usuario },
+        const token = jwt.sign({ id: usuario.id, nombre_usuario: usuario.nombre_usuario, rol: usuario.rol },
                                  process.env.JWT_SECRET_KEY!,
                                 {expiresIn: '1h'});
         res

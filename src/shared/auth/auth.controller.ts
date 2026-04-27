@@ -1,10 +1,16 @@
 import jwt from "jsonwebtoken"
 import { Request, Response, NextFunction } from "express"
+import { RolUsuario } from "../types/enum.js"
+import { orm } from "../db/orm.js"
+import { Usuario } from "../../usuario/usuario.entity.js"
 
 interface JwtPayload {
     id: number,
     nombre_usuario: string
 }
+
+const em = orm.em
+em.getRepository(Usuario)
 
 function generateToken (payload: JwtPayload) {
             
@@ -49,4 +55,40 @@ function identifyAuth(req: Request, res: Response, next: NextFunction){
     return res.status(200).json({message: "No hay una sesion de usuario identificada"})
 }
 
-export {generateToken, verifyToken, identifyAuth}
+function autorizarAccion( admin: boolean, ownUser: boolean){
+    return (req: Request, res: Response, next: NextFunction) => {
+        
+        if (!req.user){
+            return res.status(401).json({ message: 'Necesitas permisos para acceder'})
+        }
+        const rol = req.user.rol
+
+        if (admin && rol === RolUsuario.Admin) {
+            return next()
+        }
+        
+        if (ownUser === false) {
+            return res.status(403).json({ message: 'No tienes permisos'})
+        }
+        if (ownUser){  
+            const idFromToken = req.user.id
+            //const usuario = em.findOneOrFail(Usuario, { id: idFromToken}) innecesario
+            if (!idFromToken) {
+                return res.status(401).json({ message: 'Necesitas permisos para acceder'})
+            }
+
+            let idFromUrl = Number.parseInt(req.params.id)
+
+            if (!idFromUrl) {
+                idFromUrl = Number.parseInt(req.body.usuario)
+            }
+            
+            if (idFromToken !== idFromUrl) {
+                return res.status(403).json({ message: 'No tienes permisos'})
+            }
+            next()
+        }
+    }
+}
+
+export {generateToken, verifyToken, identifyAuth, autorizarAccion}
