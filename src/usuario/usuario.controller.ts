@@ -45,7 +45,7 @@ function sanitizeUsuarioInput(req: Request, res: Response, next: NextFunction) {
         user_img: req.body.user_img,
         rol: req.body.rol,
         puntos: req.body.puntos,
-        piloto_fav: req.body.piloto_fav || null
+        piloto_fav: req.body.piloto_fav || null //sacar el null!
     }
 
         Object.keys(req.body.sanitizedUsuarioInput).forEach((key) => {

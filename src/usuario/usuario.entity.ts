@@ -1,6 +1,7 @@
 import { Entity, Property, ManyToOne} from '@mikro-orm/core';
 import { BaseEntity } from "../shared/db/baseEntity.entity.js";
-import { Piloto } from "../piloto/piloto.entity.js"
+import { Piloto } from "../piloto/piloto.entity.js";
+import { RolUsuario } from "../shared/types/enum.js"
 import crypto from 'crypto';
 
 
@@ -28,8 +29,8 @@ export class Usuario extends BaseEntity {
   @Property({ type: 'blob', nullable: true })
   user_img?: Buffer;
 
-  @Property({ nullable: false })
-  rol!: string;
+  @Property({ default: RolUsuario.User ,nullable: false })
+  rol!: RolUsuario;
 
   @Property({ default: 0 })
   puntos!: number;
@@ -38,7 +39,10 @@ export class Usuario extends BaseEntity {
   piloto_fav!: Piloto
 
   static hashPassword(password: string) {
-    return crypto.createHmac('sha256', password).digest('hex');
+    if (password) {
+      return crypto.createHmac('sha256', password).digest('hex');
+    }
+    return undefined
   }
 
 }
