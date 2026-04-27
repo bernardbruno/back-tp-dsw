@@ -68,6 +68,9 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
     try {
         const id = Number.parseInt(req.params.id)
+        if (!id){
+            return res.status(400).json({message: 'Id de usuario no válido'})
+        }
         const usuario = await em.findOneOrFail(Usuario, { id }, {populate: ['piloto_fav']})
         res
             .status(200)
@@ -204,9 +207,10 @@ async function login(req: Request, res: Response) {
 
 function logout(req: Request, res: Response, next: NextFunction){
     try{
+        console.log("logout")
         res.clearCookie('accessToken', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: process.env.HTTPS_USE === 'true',
         sameSite: 'strict'
         });
 
