@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { orm } from "../shared/db/orm.js";
 import { Usuario } from "./usuario.entity.js";
-import jwt from "jsonwebtoken";
+import { JwtPayload, generateToken } from "../shared/auth/auth.controller.js"
 
 
 const em = orm.em
@@ -45,7 +45,7 @@ function sanitizeUsuarioInput(req: Request, res: Response, next: NextFunction) {
         user_img: req.body.user_img,
         rol: req.body.rol,
         puntos: req.body.puntos,
-        piloto_fav: req.body.piloto_fav || null //sacar el null!
+        piloto_fav: req.body.piloto_fav
     }
 
         Object.keys(req.body.sanitizedUsuarioInput).forEach((key) => {
@@ -177,14 +177,14 @@ async function login(req: Request, res: Response) {
 
         // No enviar la contraseña en la respuesta
         const { password: _, ...usuarioSinPassword } = usuario;
-        const jwtKey = process.env.JWT_SECRET_KEY
-        if(!jwtKey){
-            return res.status(500).json({message: 'No se pudo encontrar la clave de autorización'})
-        }
         
-        const token = jwt.sign({ id: usuario.id, nombre_usuario: usuario.nombre_usuario, rol: usuario.rol },
-                                 process.env.JWT_SECRET_KEY!,
-                                {expiresIn: '1h'});
+        const payload: JwtPayload = {
+            id: usuario.id!,
+            nombre_usuario: usuario.nombre_usuario,
+            rol: usuario.rol
+        }
+        const token = generateToken(payload)
+        
         res
             .status(200)
             .cookie('accessToken', token, {

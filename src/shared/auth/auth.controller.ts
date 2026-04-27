@@ -1,13 +1,9 @@
 import jwt from "jsonwebtoken"
 import { Request, Response, NextFunction } from "express"
 import { RolUsuario } from "../types/enum.js"
+import { JwtPayload } from "../types/interface.js"
 import { orm } from "../db/orm.js"
 import { Usuario } from "../../usuario/usuario.entity.js"
-
-interface JwtPayload {
-    id: number,
-    nombre_usuario: string
-}
 
 const em = orm.em
 em.getRepository(Usuario)
@@ -91,4 +87,4 @@ function autorizarAccion( admin: boolean, ownUser: boolean){
     }
 }
 
-export {generateToken, verifyToken, identifyAuth, autorizarAccion}
+export {JwtPayload, generateToken, verifyToken, identifyAuth, autorizarAccion}
