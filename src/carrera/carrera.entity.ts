@@ -3,6 +3,7 @@ import { BaseEntity } from "../shared/db/baseEntity.entity.js";
 import { Piloto } from "../piloto/piloto.entity.js"
 import { Resultado } from '../resultado/resultado.entity.js';
 import { Circuito } from "../circuito/circuito.entity.js";
+import { EstadoCarrera } from "../shared/types/enum.js";
 
 @Entity()
 export class Carrera extends BaseEntity {
@@ -16,8 +17,8 @@ export class Carrera extends BaseEntity {
     @Property({nullable: false})    
     hora_carrera!:number
 
-    @Property({nullable: false, default: 'en preparacion' })
-    estado!:string                          //'en preparacion', 'disponible', 'completada'
+    @Property({nullable: false, default: EstadoCarrera.EnPreparacion })
+    estado!: EstadoCarrera                         //'en preparacion', 'disponible', 'completada'
 
     @ManyToOne(()=> Piloto, {nullable: true})
     vuelta_rapida?: Rel<Piloto> | null

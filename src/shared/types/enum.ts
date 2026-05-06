@@ -3,4 +3,10 @@ enum RolUsuario {
     User = 'user'
 }
 
-export { RolUsuario }
+enum EstadoCarrera {
+    EnPreparacion = 'en preparacion',
+    Disponible = 'disponible',
+    Completada = 'completada'
+}
+
+export { RolUsuario, EstadoCarrera }
