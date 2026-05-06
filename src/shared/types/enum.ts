@@ -4,7 +4,7 @@ enum RolUsuario {
 }
 
 enum EstadoCarrera {
-    EnPreparacion = 'en preparacion',
+    EnPreparacion = 'preparacion',
     Disponible = 'disponible',
     Completada = 'completada'
 }
