@@ -76,6 +76,10 @@ function autorizarAccion( admin: boolean, ownUser: boolean){
             let idFromUrl = Number.parseInt(req.params.id)
 
             if (!idFromUrl) {
+                idFromUrl = Number.parseInt(req.params.usuario)
+            }
+
+            if (!idFromUrl) {
                 idFromUrl = Number.parseInt(req.body.usuario)
             }
             
@@ -87,4 +91,15 @@ function autorizarAccion( admin: boolean, ownUser: boolean){
     }
 }
 
-export {JwtPayload, generateToken, verifyToken, identifyAuth, autorizarAccion}
+function requerirUsuario(req: Request, res: Response, next: NextFunction){  //solo pide usuario logueado
+    if (!req.user){
+            return res.status(401).json({ message: 'Necesitas iniciar sesion para acceder'})
+        }
+    if (!req.user.id) {
+        return res.status(401).json({ message: 'No se encontró el id de usuario'})
+    }
+    next()
+}
+
+
+export {JwtPayload, generateToken, verifyToken, identifyAuth, autorizarAccion, requerirUsuario}

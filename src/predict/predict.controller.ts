@@ -84,11 +84,7 @@ async function findOne(req: Request, res: Response){
 
 async function add(req: Request, res: Response) {
     try {
-        const id = req.user.id
-        if (!id){
-            return res.status(401).json({message: "Necesitas estar logueado para realizar predicciones"})
-        }
-        const usuario = await em.findOneOrFail(Usuario, {id})
+        const usuario = await em.findOneOrFail(Usuario, {id: req.user.id}) //ver q no tenga una pred hecha?
 
         const predictData = req.body.sanitizedPredictInput
 
