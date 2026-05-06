@@ -1,5 +1,5 @@
 ###
-GET http://localhost:3000/api/predict/2/8
+GET http://localhost:3000/api/predict/2
 ###
 POST http://localhost:3000/api/predict/2
 Content-Type: application/json

@@ -1,5 +1,5 @@
 ###
-GET http://localhost:3000/api/carrera/
+GET http://localhost:3000/api/carrera/2
 ###
 POST http://localhost:3000/api/carrera
 Content-Type: application/json
@@ -56,4 +56,12 @@ Content-Type: application/json
   "fecha_carrera": "2025-07-20",
   "hora_carrera": 15,
   "circuito": 1
+}
+
+###
+PUT http://localhost:3000/api/carrera/10
+Content-Type: application/json
+
+{
+  "estado": "preparacion" 
 }

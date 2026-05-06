@@ -4,6 +4,7 @@ import { Request, Response, NextFunction } from 'express'
 import { orm } from "../shared/db/orm.js"
 import { Carrera } from '../carrera/carrera.entity.js'
 import { Predict } from './predict.entity.js'
+import { Usuario } from '../usuario/usuario.entity.js'
 
 const em = orm.em
 em.getRepository(Predict)
@@ -12,7 +13,7 @@ em.getRepository(Carrera)
 function sanitizePredictInput(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedPredictInput = {
         carrera: req.params.carrera,
-        usuario: req.body.usuario,
+        //usuario: req.body.usuario, lo tomamos del token
         pole: req.body.pole,
         puesto1: req.body.puesto1,
         puesto2: req.body.puesto2,
@@ -83,7 +84,15 @@ async function findOne(req: Request, res: Response){
 
 async function add(req: Request, res: Response) {
     try {
-        const predict = em.create(Predict, req.body.sanitizedPredictInput)
+        const id = req.user.id
+        if (!id){
+            return res.status(401).json({message: "Necesitas estar logueado para realizar predicciones"})
+        }
+        const usuario = await em.findOneOrFail(Usuario, {id})
+
+        const predictData = req.body.sanitizedPredictInput
+
+        const predict = em.create(Predict, {...predictData, usuario})
         await em.flush()
         res
             .status(201)
