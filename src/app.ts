@@ -20,6 +20,8 @@ import { authRouter } from './shared/auth/auth.routes.js';
 
 
 dotenv.config()
+import { postRouter } from './post/post.routes.js'
+import { comentarioRouter } from './comentario/comentario.routes.js'
 
 const app = express ()
 
@@ -54,6 +56,8 @@ app.use('/api/piloto', pilotoRouter)
 app.use('/api/carrera', carreraRouter)
 app.use('/api/resultado', resultadoRouter)
 app.use('/api/predict', predictRouter)
+app.use('/api/post', postRouter)
+app.use('/api/comentario', comentarioRouter)
 
 app.get('/debug-cookie', (req, res) => {
   console.log('Cookies recibidas:', req.cookies);  // { accessToken: 'jwt...' }

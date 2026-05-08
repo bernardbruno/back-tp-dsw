@@ -1,0 +1,82 @@
+### Obtener comentarios de un post
+GET http://localhost:3000/api/comentario/post/1
+Content-Type: application/json
+
+###
+
+### Obtener comentarios de un usuario
+GET http://localhost:3000/api/comentario/usuario/1
+Content-Type: application/json
+
+###
+
+### Crear comentario en post 1
+POST http://localhost:3000/api/comentario/
+Content-Type: application/json
+
+{
+  "cuerpo": "Depende mucho de lo que haga McLaren esta temporada, están muy fuertes.",
+  "post_id": 1,
+  "usuario_id": 2,
+  "fecha_hora": "2024-06-03T12:00:00Z",
+  "likes": 5
+}
+
+###
+
+### Crear comentario en post 1
+POST http://localhost:3000/api/comentario/
+Content-Type: application/json
+
+{
+  "cuerpo": "Si Hamilton se va a Ferrari y le va bien, la comparación va a ser inevitable.",
+  "post_id": 1,
+  "usuario_id": 1,
+  "fecha_hora": "2024-06-03T12:05:00Z",
+  "likes": 3
+}
+
+###
+
+### Crear comentario en post 2
+POST http://localhost:3000/api/comentario/
+Content-Type: application/json
+
+{
+  "cuerpo": "Leclerc en Mónaco es casi imbatible, totalmente de acuerdo con la predicción.",
+  "post_id": 2,
+  "usuario_id": 1,
+  "fecha_hora": "2024-06-03T12:10:00Z",
+  "likes": 15
+}
+
+###
+
+### Crear comentario en post 3
+POST http://localhost:3000/api/comentario/
+Content-Type: application/json
+
+{
+  "cuerpo": "Totalmente de acuerdo, Mercedes ya dijo que el cambio de reglamento les favorece.",
+  "post_id": 3,
+  "usuario_id": 2,
+  "fecha_hora": "2024-06-03T12:15:00Z"
+}
+
+###
+
+### Like a un comentario
+POST http://localhost:3000/api/comentario/1/like
+Content-Type: application/json
+
+###
+
+### Unlike a un comentario
+POST http://localhost:3000/api/comentario/1/unlike
+Content-Type: application/json
+
+###
+
+### Eliminar comentario
+DELETE http://localhost:3000/api/comentario/1
+Content-Type: application/json

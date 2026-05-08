@@ -1,0 +1,101 @@
+
+### Obtener todos los posts
+GET http://localhost:3000/api/post/
+Content-Type: application/json
+
+###
+
+### Obtener post por ID
+GET http://localhost:3000/api/post/1
+Content-Type: application/json
+
+###
+
+### Obtener posts de un usuario
+GET http://localhost:3000/api/post/usuario/1
+Content-Type: application/json
+
+###
+
+### Crear post 1
+POST http://localhost:3000/api/post
+Content-Type: application/json
+
+{
+  "titulo": "¿Verstappen puede llegar al récord de Schumacher?",
+  "descripcion": "Con cuatro títulos consecutivos ya en su haber, Max Verstappen se perfila como uno de los grandes de la historia. A sus 26 años, el tiempo está de su lado y Red Bull sigue siendo competitivo. ¿Puede superar los 7 títulos de Schumacher?",
+  "usuario_id": 1,
+  "fecha_hora": "2024-06-01T12:00:00Z",
+  "likes": 5
+}
+
+###
+
+### Crear post 2
+POST http://localhost:3000/api/post
+Content-Type: application/json
+
+{
+  "titulo": "Predicción: GP de Mónaco 2025",
+  "descripcion": "Monaco es el circuito donde la clasificación lo decide todo. Veo a Leclerc saliendo desde la pole y manteniendo la posición. Ferrari ha mejorado mucho en sector 2 y el monegasco en casa no falla. Mi apuesta: 1° Leclerc, 2° Norris, 3° Verstappen.",
+  "usuario_id": 2,
+  "fecha_hora": "2024-06-02T15:30:00Z",
+  "likes": 10
+}
+
+###
+
+### Crear post 3
+POST http://localhost:3000/api/post
+Content-Type: application/json
+
+{
+  "titulo": "El efecto suelo va a cambiar todo en 2026",
+  "descripcion": "Con el nuevo reglamento de 2026, los autos van a ser más livianos y con efecto suelo reducido. Esto va a nivelar un poco más el campo. Creo que vamos a ver a equipos medianos ganando carreras nuevamente, como pasaba en la era Bridgestone.",
+  "usuario_id": 1,
+  "fecha_hora": "2024-06-02T18:45:00Z",
+  "likes": 8
+}
+
+###
+
+### Crear post 4
+POST http://localhost:3000/api/post
+Content-Type: application/json
+
+{
+  "titulo": "Ferrari 2025: ¿por fin el año del título?",
+  "descripcion": "Después de años de promesas rotas, Ferrari llega a 2025 con Hamilton sumado al equipo y un auto que parece competitivo desde los test. ¿Será este el año en que Maranello vuelve a lo más alto?",
+  "usuario_id": 2,
+  "fecha_hora": "2024-06-03T12:00:00Z",
+  "likes": 12
+}
+
+###
+
+### Actualizar post
+PUT http://localhost:3000/api/post/1
+Content-Type: application/json
+
+{
+  "titulo": "¿Verstappen puede igualar a Schumacher?",
+  "descripcion": "Con cuatro títulos consecutivos ya en su haber, Max Verstappen se perfila como uno de los grandes de la historia. A sus 26 años, el tiempo está de su lado. ¿Puede superar los 7 títulos de Schumacher?"
+}
+
+###
+
+### Like a un post
+POST http://localhost:3000/api/post/1/like
+Content-Type: application/json
+
+###
+
+### Unlike a un post
+POST http://localhost:3000/api/post/1/unlike
+Content-Type: application/json
+
+###
+
+### Eliminar post
+DELETE http://localhost:3000/api/post/1
+Content-Type: application/json
