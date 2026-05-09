@@ -1,15 +1,19 @@
 import { Request, Response, NextFunction } from 'express'
 import { orm } from '../shared/db/orm.js'
 import { Post } from './post.entity.js'
+import { Usuario } from '../usuario/usuario.entity.js'
 
 const em = orm.em
 em.getRepository(Post)
 
 function sanitizePostInput(req: Request, res: Response, next: NextFunction) {
+
+    const usuario = em.findOneOrFail(Usuario, {id: req.user.id})
+
     req.body.sanitizedPostInput = {
         titulo: req.body.titulo,
         descripcion: req.body.descripcion,
-        usuario: req.body.usuario_id,
+        usuario: usuario,
     }
 
     Object.keys(req.body.sanitizedPostInput).forEach((key) => {
