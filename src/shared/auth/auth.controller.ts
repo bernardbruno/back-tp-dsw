@@ -91,13 +91,19 @@ function autorizarAccion( admin: boolean, ownUser: boolean){
     }
 }
 
-function requerirUsuario(req: Request, res: Response, next: NextFunction){  //solo pide usuario logueado
+async function requerirUsuario(req: Request, res: Response, next: NextFunction){  //solo pide usuario logueado
     if (!req.user){
             return res.status(401).json({ message: 'Necesitas iniciar sesion para acceder'})
         }
     if (!req.user.id) {
         return res.status(401).json({ message: 'No se encontró el id de usuario'})
     }
+    const usuario = await em.findOne(Usuario, { id: req.user.id });
+    
+    if (!usuario) {
+      return res.status(401).json({ message: 'Usuario no encontrado' });
+    }
+    
     next()
 }
 
