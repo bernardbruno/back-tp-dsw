@@ -8,8 +8,8 @@ em.getRepository(Carrera)
 const POPULATE_CARRERA = [
   'vuelta_rapida', 'pole', 'circuito', 'resultados',
   'duelo_piloto_a', 'duelo_piloto_b', 'pit_stops_piloto',
-  'resultado_puesto1', 'resultado_puesto2', 'resultado_puesto3', 'resultado_no_termina',
-  'resultado_duelo_ganador', 'resultado_piloto_penalizado',
+  'resultado_puesto1', 'resultado_puesto2', 'resultado_puesto3',
+  'resultado_duelo_ganador',
   'resultado_escuderia_parada_rapida', 'resultado_piloto_del_dia'
 ] as const
 

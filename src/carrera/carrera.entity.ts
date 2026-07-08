@@ -57,9 +57,6 @@ export class Carrera extends BaseEntity {
     @ManyToOne(() => Piloto, {nullable: true})
     resultado_puesto3?: Rel<Piloto> | null
 
-    @ManyToMany(() => Piloto)
-    resultado_no_termina = new Collection<Piloto>(this);
-
     @Property({nullable: true})
     resultado_safety_car?: boolean | null
 
@@ -68,9 +65,6 @@ export class Carrera extends BaseEntity {
 
     @Property({nullable: true})
     resultado_pit_stops_cantidad?: number | null
-
-    @ManyToMany(() => Piloto)
-    resultado_piloto_penalizado = new Collection<Piloto>(this);
 
     @ManyToOne(() => Escuderia, {nullable: true})
     resultado_escuderia_parada_rapida?: Rel<Escuderia> | null

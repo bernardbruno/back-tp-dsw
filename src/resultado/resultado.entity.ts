@@ -17,5 +17,8 @@ export class Resultado {
   @Property({nullable: true})
   estado?: string //DNF DNS 
 
+  @Property({ default: false })
+  penalizado!: boolean;
+
   //tiempos?
 }
