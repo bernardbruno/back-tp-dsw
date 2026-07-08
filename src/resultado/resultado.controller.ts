@@ -88,7 +88,7 @@ async function findAllPorCarrera(req: Request, res: Response) {
     const resultados = await em.find(
       Resultado,
       {carrera: id},
-      { populate: ['piloto'] }
+      { populate: ['piloto.escuderia'] }
     )
     res
       .status(200)

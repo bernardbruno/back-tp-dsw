@@ -26,6 +26,12 @@ export class Carrera extends BaseEntity {
     @ManyToOne(()=> Piloto, {nullable: true})
     pole?: Rel<Piloto>| null
 
+    @ManyToOne(()=> Piloto, {nullable: true})
+    duelo_piloto_a?: Rel<Piloto> | null
+
+    @ManyToOne(()=> Piloto, {nullable: true})
+    duelo_piloto_b?: Rel<Piloto> | null
+
     @ManyToOne(()=> Circuito, {nullable: false})
     circuito!: Circuito
 

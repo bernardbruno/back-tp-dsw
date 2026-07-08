@@ -14,6 +14,8 @@ function sanitizeCarreraInput(req: Request, res: Response, next: NextFunction) {
     estado: req.body.estado,
     vuelta_rapida: req.body.vuelta_rapida,
     pole: req.body.pole,
+    duelo_piloto_a: req.body.duelo_piloto_a,
+    duelo_piloto_b: req.body.duelo_piloto_b,
     circuito: req.body.circuito
   }
 
@@ -31,7 +33,7 @@ async function findAll(req: Request, res: Response) {
     const carreras = await em.find(
       Carrera,
       {},
-      { populate: ['vuelta_rapida', 'pole', 'circuito', 'resultados'] }
+      { populate: ['vuelta_rapida', 'pole', 'duelo_piloto_a', 'duelo_piloto_b', 'circuito', 'resultados'] }
     )
     res.status(200).json({ message: 'Buscar todas las carreras', data: carreras })
   } catch (error: any) {
@@ -45,7 +47,7 @@ async function findOne(req: Request, res: Response) {
     const carrera = await em.findOneOrFail(
       Carrera,
       { id },
-      { populate: ['vuelta_rapida', 'pole', 'circuito', 'resultados'] }
+      { populate: ['vuelta_rapida', 'pole', 'duelo_piloto_a', 'duelo_piloto_b', 'circuito', 'resultados'] }
     )
     res.status(200).json({ message: 'Buscar una carrera', data: carrera })
   } catch (error: any) {
@@ -73,7 +75,7 @@ async function update(req: Request, res: Response) {
     const carrera_actualizada = await em.findOneOrFail(
             Carrera,
             { id },
-            {populate: ['vuelta_rapida', 'pole', 'circuito']}
+            {populate: ['vuelta_rapida', 'pole', 'duelo_piloto_a', 'duelo_piloto_b', 'circuito', 'resultados']}
         )
     res.status(200).json({ message: 'carrera actualizada con exito', data: carrera_actualizada })
   } catch (error: any) {

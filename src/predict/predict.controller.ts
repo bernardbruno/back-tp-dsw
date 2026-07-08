@@ -1,5 +1,3 @@
-//ALCANCE PARA AD
-
 import { Request, Response, NextFunction } from 'express'
 import { orm } from "../shared/db/orm.js"
 import { Carrera } from '../carrera/carrera.entity.js'
@@ -21,7 +19,16 @@ function sanitizePredictInput(req: Request, res: Response, next: NextFunction){
         no_termina: req.body.no_termina,
         vuelta_rapida: req.body.vuelta_rapida,
         posicion_colapinto: req.body.posicion_colapinto,
-        fecha: req.body.fecha
+        fecha: req.body.fecha,
+        safety_car: req.body.safety_car,
+        duelo_piloto_a: req.body.duelo_piloto_a,
+        duelo_piloto_b: req.body.duelo_piloto_b,
+        duelo_ganador: req.body.duelo_ganador,
+        pit_stops_piloto: req.body.pit_stops_piloto,
+        pit_stops_cantidad: req.body.pit_stops_cantidad,
+        piloto_penalizado: req.body.piloto_penalizado,
+        escuderia_parada_rapida: req.body.escuderia_parada_rapida,
+        piloto_del_dia: req.body.piloto_del_dia
     }
 
     Object.keys(req.body.sanitizedPredictInput).forEach((key) => {
@@ -84,7 +91,15 @@ async function findOne(req: Request, res: Response){
 
 async function add(req: Request, res: Response) {
     try {
-        const usuario = await em.findOneOrFail(Usuario, {id: req.user.id}) //ver q no tenga una pred hecha?
+        const usuario = await em.findOneOrFail(Usuario, {id: req.user.id})
+
+        const yaExiste = await em.findOne(Predict, {
+            carrera: req.body.sanitizedPredictInput.carrera,
+            usuario: usuario
+        })
+        if (yaExiste) {
+            return res.status(409).json({message: 'Ya existe una predicción para esta carrera'})
+        }
 
         const predictData = req.body.sanitizedPredictInput
 
