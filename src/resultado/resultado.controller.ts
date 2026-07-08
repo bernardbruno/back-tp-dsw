@@ -83,12 +83,18 @@ async function findAllPorCarrera(req: Request, res: Response) {
     const carrera = await em.findOneOrFail(
         Carrera,
         { id },
-        {populate: ['vuelta_rapida', 'pole', 'circuito']}
+        {populate: [
+          'vuelta_rapida', 'pole', 'circuito',
+          'duelo_piloto_a', 'duelo_piloto_b', 'pit_stops_piloto',
+          'resultado_puesto1', 'resultado_puesto2', 'resultado_puesto3', 'resultado_no_termina',
+          'resultado_duelo_ganador', 'resultado_piloto_penalizado',
+          'resultado_escuderia_parada_rapida', 'resultado_piloto_del_dia'
+        ]}
     )
     const resultados = await em.find(
       Resultado,
       {carrera: id},
-      { populate: ['piloto.escuderia'] }
+      { populate: ['piloto', 'piloto.escuderia'] }
     )
     res
       .status(200)

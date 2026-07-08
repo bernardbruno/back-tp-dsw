@@ -1,3 +1,4 @@
+//ALCANCE PARA AD
 import {  Entity, ManyToOne, Property, Rel } from '@mikro-orm/core';
 import { Piloto } from '../piloto/piloto.entity.js';
 import { Carrera } from '../carrera/carrera.entity.js';
@@ -41,24 +42,18 @@ export class Predict {
     @Property({nullable: true})
     fecha!: Date;
 
-    // ¿Habrá safety car (No VSC) durante la carrera?
+    // --- Nuevas categorías de predicción ---
+
+    // ¿Habrá safety car (o VSC) durante la carrera?
     @Property({nullable: true})
     safety_car?: boolean
 
-    // Cara a cara: dos pilotos elegidos, y cuál de los dos termina primero
-    @ManyToOne(() => Piloto, { nullable: true})
-    duelo_piloto_a?: Piloto
-
-    @ManyToOne(() => Piloto, { nullable: true})
-    duelo_piloto_b?: Piloto
-
+    // Cara a cara: el admin define los 2 pilotos en la Carrera, acá guardamos
+    // solo la elección del usuario sobre cuál de esos dos termina primero
     @ManyToOne(() => Piloto, { nullable: true})
     duelo_ganador?: Piloto
 
-    // Cantidad de paradas en boxes de un piloto elegido
-    @ManyToOne(() => Piloto, { nullable: true})
-    pit_stops_piloto?: Piloto
-
+    // La cantidad de paradas es sobre el piloto que definió el admin en la Carrera (pit_stops_piloto)
     @Property({nullable: true})
     pit_stops_cantidad?: number
 
@@ -70,7 +65,7 @@ export class Predict {
     @ManyToOne(() => Escuderia, { nullable: true})
     escuderia_parada_rapida?: Escuderia
 
-    // Piloto del día (elegido por los fans)
+    // Piloto del día (elegido por la organización/fans)
     @ManyToOne(() => Piloto, { nullable: true})
     piloto_del_dia?: Piloto
 

@@ -1,3 +1,5 @@
+//ALCANCE PARA AD
+
 import { Request, Response, NextFunction } from 'express'
 import { orm } from "../shared/db/orm.js"
 import { Carrera } from '../carrera/carrera.entity.js'
@@ -7,6 +9,12 @@ import { Usuario } from '../usuario/usuario.entity.js'
 const em = orm.em
 em.getRepository(Predict)
 em.getRepository(Carrera)
+
+const POPULATE_PREDICT = [
+    'pole', 'puesto1', 'puesto2', 'puesto3', 'no_termina', 'vuelta_rapida',
+    'duelo_ganador', 'piloto_penalizado', 'escuderia_parada_rapida', 'piloto_del_dia',
+    'usuario'
+] as const
 
 function sanitizePredictInput(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedPredictInput = {
@@ -21,10 +29,7 @@ function sanitizePredictInput(req: Request, res: Response, next: NextFunction){
         posicion_colapinto: req.body.posicion_colapinto,
         fecha: req.body.fecha,
         safety_car: req.body.safety_car,
-        duelo_piloto_a: req.body.duelo_piloto_a,
-        duelo_piloto_b: req.body.duelo_piloto_b,
         duelo_ganador: req.body.duelo_ganador,
-        pit_stops_piloto: req.body.pit_stops_piloto,
         pit_stops_cantidad: req.body.pit_stops_cantidad,
         piloto_penalizado: req.body.piloto_penalizado,
         escuderia_parada_rapida: req.body.escuderia_parada_rapida,
@@ -52,7 +57,7 @@ async function findAllPorCarrera(req: Request, res: Response, next: NextFunction
         const predicts = await em.find(
             Predict,
             {carrera: id},
-            {populate: ['usuario'] }
+            {populate: POPULATE_PREDICT }
         )
 
         res
@@ -75,7 +80,7 @@ async function findOne(req: Request, res: Response){
         const predict = await em.findOneOrFail(
             Predict,
             {carrera: id_carrera, usuario: id_usuario},
-            {populate: ['carrera', 'usuario']}
+            {populate: ['carrera', ...POPULATE_PREDICT]}
         )
         
         res
