@@ -9,11 +9,18 @@ em.getRepository(Resultado)
 em.getRepository(Carrera)
 
 function sanitizeResultadoInput(req: Request, res: Response, next: NextFunction) {
+    const penalizado = req.body.penalizado
+
+    if (penalizado !== undefined && typeof penalizado !== 'boolean') {
+      return res.status(400).json({ message: "El campo 'penalizado' debe ser un booleano" })
+    }
+
     req.body.sanitizedResultadoInput = {
         piloto: req.body.piloto,
         carrera: req.body.carrera,
         posicion: req.body.posicion,
-        estado: req.body.estado
+        estado: req.body.estado,
+        penalizado
     }
 
   Object.keys(req.body.sanitizedResultadoInput).forEach((key) => {
@@ -47,11 +54,17 @@ function sanitizeManyResultadosInput(req: Request, res: Response, next: NextFunc
         if (typeof piloto.estado !== 'string'){
           return res.status(400).json({message: `El campo 'estado' en posición ${i} es inválido`})
       }}
+      if (piloto.penalizado !== undefined) {
+        if (typeof piloto.penalizado !== 'boolean') {
+          return res.status(400).json({message: `El campo 'penalizado' en posición ${i} es inválido`})
+        }
+      }
       
       sanitized_pilotos.push({
       id: piloto.id,
       ...(piloto.posicion !== undefined ? { posicion: piloto.posicion } : {}),
       ...(piloto.estado !== undefined ? { estado: piloto.estado } : {}),
+      ...(piloto.penalizado !== undefined ? { penalizado: piloto.penalizado } : {}),
       })
     }
 
@@ -83,12 +96,18 @@ async function findAllPorCarrera(req: Request, res: Response) {
     const carrera = await em.findOneOrFail(
         Carrera,
         { id },
-        {populate: ['vuelta_rapida', 'pole', 'circuito']}
+        {populate: [
+          'vuelta_rapida', 'pole', 'circuito',
+          'duelo_piloto_a', 'duelo_piloto_b', 'pit_stops_piloto',
+          'resultado_puesto1', 'resultado_puesto2', 'resultado_puesto3',
+          'resultado_duelo_ganador',
+          'resultado_escuderia_parada_rapida', 'resultado_piloto_del_dia'
+        ]}
     )
     const resultados = await em.find(
       Resultado,
       {carrera: id},
-      { populate: ['piloto'] }
+      { populate: ['piloto', 'piloto.escuderia'] }
     )
     res
       .status(200)
@@ -138,7 +157,8 @@ async function addResultadosEnCarrera(req: Request, res: Response) {
 
         const resultado = await em.create(Resultado, {
           piloto: piloto,
-          carrera: carrera
+          carrera: carrera,
+          penalizado: false
         })
       }
 
@@ -176,7 +196,6 @@ async function updateMany(req: Request, res: Response) {
       for (const res_piloto of req.body.sanitized_pilotos){
         const id_piloto = res_piloto.id
         const referency_piloto = await em.findOneOrFail(Piloto, id_piloto)
-
         const resultado = await em.findOneOrFail(Resultado, {
           piloto: referency_piloto,
           carrera: carrera,

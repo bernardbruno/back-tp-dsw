@@ -10,6 +10,12 @@ const em = orm.em
 em.getRepository(Predict)
 em.getRepository(Carrera)
 
+const POPULATE_PREDICT = [
+    'pole', 'puesto1', 'puesto2', 'puesto3', 'no_termina', 'vuelta_rapida',
+    'duelo_ganador', 'piloto_penalizado', 'escuderia_parada_rapida', 'piloto_del_dia',
+    'usuario'
+] as const
+
 function sanitizePredictInput(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedPredictInput = {
         carrera: req.params.carrera,
@@ -21,7 +27,13 @@ function sanitizePredictInput(req: Request, res: Response, next: NextFunction){
         no_termina: req.body.no_termina,
         vuelta_rapida: req.body.vuelta_rapida,
         posicion_colapinto: req.body.posicion_colapinto,
-        fecha: req.body.fecha
+        fecha: req.body.fecha,
+        safety_car: req.body.safety_car,
+        duelo_ganador: req.body.duelo_ganador,
+        pit_stops_cantidad: req.body.pit_stops_cantidad,
+        piloto_penalizado: req.body.piloto_penalizado,
+        escuderia_parada_rapida: req.body.escuderia_parada_rapida,
+        piloto_del_dia: req.body.piloto_del_dia
     }
 
     Object.keys(req.body.sanitizedPredictInput).forEach((key) => {
@@ -45,7 +57,7 @@ async function findAllPorCarrera(req: Request, res: Response, next: NextFunction
         const predicts = await em.find(
             Predict,
             {carrera: id},
-            {populate: ['usuario'] }
+            {populate: POPULATE_PREDICT }
         )
 
         res
@@ -68,7 +80,7 @@ async function findOne(req: Request, res: Response){
         const predict = await em.findOneOrFail(
             Predict,
             {carrera: id_carrera, usuario: id_usuario},
-            {populate: ['carrera', 'usuario']}
+            {populate: ['carrera', ...POPULATE_PREDICT]}
         )
         
         res
@@ -84,7 +96,15 @@ async function findOne(req: Request, res: Response){
 
 async function add(req: Request, res: Response) {
     try {
-        const usuario = await em.findOneOrFail(Usuario, {id: req.user.id}) //ver q no tenga una pred hecha?
+        const usuario = await em.findOneOrFail(Usuario, {id: req.user.id})
+
+        const yaExiste = await em.findOne(Predict, {
+            carrera: req.body.sanitizedPredictInput.carrera,
+            usuario: usuario
+        })
+        if (yaExiste) {
+            return res.status(409).json({message: 'Ya existe una predicción para esta carrera'})
+        }
 
         const predictData = req.body.sanitizedPredictInput
 
