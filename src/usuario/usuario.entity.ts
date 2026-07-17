@@ -20,7 +20,7 @@ export class Usuario extends BaseEntity {
   @Property({ unique: true, nullable: false })
   email!: string;
 
-  @Property({ hidden: false, nullable: false })
+  @Property({ hidden: false, nullable: false }) //utilizar hidden!
   password!: string;
 
   @Property({ nullable: true })

@@ -16,6 +16,7 @@ GET http://localhost:3000/api/post/usuario/1
 Content-Type: application/json
 
 ###
+GET http://localhost:3000/debug-cookie
 
 ### Crear post 1
 POST http://localhost:3000/api/post
@@ -37,10 +38,7 @@ Content-Type: application/json
 
 {
   "titulo": "Predicción: GP de Mónaco 2025",
-  "descripcion": "Monaco es el circuito donde la clasificación lo decide todo. Veo a Leclerc saliendo desde la pole y manteniendo la posición. Ferrari ha mejorado mucho en sector 2 y el monegasco en casa no falla. Mi apuesta: 1° Leclerc, 2° Norris, 3° Verstappen.",
-  "usuario_id": 2,
-  "fecha_hora": "2024-06-02T15:30:00Z",
-  "likes": 10
+  "descripcion": "Monaco es el circuito donde la clasificación lo decide todo. Veo a Leclerc saliendo desde la pole y manteniendo la posición. Ferrari ha mejorado mucho en sector 2 y el monegasco en casa no falla. Mi apuesta: 1° Leclerc, 2° Norris, 3° Verstappen."
 }
 
 ###

@@ -10,15 +10,17 @@ import {
     like,
     unlike,
 } from './post.controller.js'
+import { requerirUsuario } from '../shared/auth/auth.controller.js'
+
 
 export const postRouter = Router()
 
 postRouter.get('/', findAll)
 postRouter.get('/usuario/:usuario_id', findByUsuario)
 postRouter.get('/:id', findOne)
-postRouter.post('/', sanitizePostInput, add)
-postRouter.put('/:id', sanitizePostInput, update)
-postRouter.patch('/:id', sanitizePostInput, update)
-postRouter.delete('/:id', remove)
-postRouter.post('/:id/like', like)
-postRouter.post('/:id/unlike', unlike)
+postRouter.post('/', requerirUsuario, sanitizePostInput, add)
+postRouter.put('/:id', requerirUsuario, sanitizePostInput, update)
+postRouter.patch('/:id', requerirUsuario, sanitizePostInput, update)
+postRouter.delete('/:id', requerirUsuario, remove) //chequear q sea mismo usuario?
+postRouter.post('/:id/like', requerirUsuario, like)
+postRouter.post('/:id/unlike', requerirUsuario, unlike)

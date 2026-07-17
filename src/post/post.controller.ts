@@ -6,9 +6,10 @@ import { Usuario } from '../usuario/usuario.entity.js'
 const em = orm.em
 em.getRepository(Post)
 
-function sanitizePostInput(req: Request, res: Response, next: NextFunction) {
-
-    const usuario = em.findOneOrFail(Usuario, {id: req.user.id})
+async function sanitizePostInput(req: Request, res: Response, next: NextFunction) {
+    
+    const usuario = await em.findOneOrFail(Usuario, {id: req.user.id})
+    
 
     req.body.sanitizedPostInput = {
         titulo: req.body.titulo,
