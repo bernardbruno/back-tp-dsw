@@ -2,19 +2,20 @@ import { Router } from 'express'
 import { sanitizeResultadoInput, sanitizeManyResultadosInput,
          findAll, findAllPorCarrera,
         findOne, addOne, updateOne, remove, addResultadosEnCarrera, updateMany } from './resultado.controller.js'
+import { autorizarAccion } from '../shared/auth/auth.controller.js'
 
 export const resultadoRouter = Router()
 
-resultadoRouter.get('/', findAll)
-resultadoRouter.get('/:carrera', findAllPorCarrera)
-resultadoRouter.get('/:carrera/:piloto', findOne)
+resultadoRouter.get('/',                findAll)
+resultadoRouter.get('/:carrera',        findAllPorCarrera)
+resultadoRouter.get('/:carrera/:piloto',findOne)
 
-resultadoRouter.post('/:carrera', sanitizeManyResultadosInput, addResultadosEnCarrera)
-resultadoRouter.post('/', sanitizeResultadoInput, addOne)
+resultadoRouter.post('/:carrera',       autorizarAccion(true, false),    sanitizeManyResultadosInput,    addResultadosEnCarrera)
+resultadoRouter.post('/',               autorizarAccion(true, false),    sanitizeResultadoInput,         addOne)
 
-resultadoRouter.put('/:carrera', sanitizeManyResultadosInput, updateMany)
-resultadoRouter.patch('/:carrera', sanitizeManyResultadosInput, updateMany)
-resultadoRouter.put('/:carrera/:piloto', sanitizeResultadoInput, updateOne)
-resultadoRouter.patch('/:carrera/:piloto', sanitizeResultadoInput, updateOne)
+resultadoRouter.put('/:carrera',        autorizarAccion(true, false),    sanitizeManyResultadosInput,    updateMany)
+resultadoRouter.patch('/:carrera',      autorizarAccion(true, false),    sanitizeManyResultadosInput,    updateMany)
+resultadoRouter.put('/:carrera/:piloto',autorizarAccion(true, false),    sanitizeResultadoInput,        updateOne)
+resultadoRouter.patch('/:carrera/:piloto', autorizarAccion(true, false),   sanitizeResultadoInput,      updateOne)
 
-resultadoRouter.delete('/:carrera/:piloto', remove)
+resultadoRouter.delete('/:carrera/:piloto',     autorizarAccion(true, false),     remove)
