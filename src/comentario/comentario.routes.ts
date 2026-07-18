@@ -8,13 +8,13 @@ import {
     unlike,
     findByUsuario,
 } from './comentario.controller.js'
-import { autorizarAccion, requerirUsuario } from '../shared/auth/auth.controller.js'
+import { requerirMismoUsuario, requerirUsuario } from '../shared/auth/auth.controller.js'
 
 export const comentarioRouter = Router()
 
 comentarioRouter.get('/posts/:post_id/comentarios', findByPost)
 comentarioRouter.post('/',      requerirUsuario, sanitizeComentarioInput, add)
-comentarioRouter.delete('/:id', autorizarAccion(true, true),   remove)
+comentarioRouter.delete('/:id', requerirMismoUsuario,   remove)
 comentarioRouter.post('/:id/like',      requerirUsuario, like)
 comentarioRouter.post('/:id/unlike',    requerirUsuario, unlike)
 comentarioRouter.get('/usuario/:usuario_id',    findByUsuario)

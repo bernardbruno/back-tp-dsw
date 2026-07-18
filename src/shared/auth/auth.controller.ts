@@ -32,9 +32,11 @@ function verifyToken(req: Request, res: Response, next: NextFunction){
         if (token){
             const data = jwt.verify(token, secret!)
             req.user = data
+            console.log(data)   //quitar
         }
         
     } catch (error: any) {
+        console.log("TokenExpiredError")
         if (error.name !== 'TokenExpiredError') {
         return res.status(500).json({ message: error.message });
         }
@@ -51,7 +53,9 @@ function identifyAuth(req: Request, res: Response, next: NextFunction){
     return res.status(200).json({message: "No hay una sesion de usuario identificada"})
 }
 
-function autorizarAccion( admin: boolean, ownUser: boolean){
+function requerirAdmin(){
+    // Sólo el admin puede realizar esta accion
+    
     return (req: Request, res: Response, next: NextFunction) => {
         
         if (!req.user){
@@ -59,37 +63,57 @@ function autorizarAccion( admin: boolean, ownUser: boolean){
         }
         const rol = req.user.rol
 
-        if (admin && rol === RolUsuario.Admin) {
+        if (rol === RolUsuario.Admin) {
             return next()
-        }
-        
-        if (ownUser === false) {
+        } else {
             return res.status(403).json({ message: 'No tienes permisos'})
-        }
-        if (ownUser){  
-            const idFromToken = req.user.id
-            //const usuario = em.findOneOrFail(Usuario, { id: idFromToken}) innecesario
-            if (!idFromToken) {
-                return res.status(401).json({ message: 'Necesitas permisos para acceder'})
-            }
-
-            let idFromUrl = Number.parseInt(req.params.id)
-
-            if (!idFromUrl) {
-                idFromUrl = Number.parseInt(req.params.usuario)
-            }
-
-            if (!idFromUrl) {
-                idFromUrl = Number.parseInt(req.body.usuario)
-            }
-            
-            if (idFromToken !== idFromUrl) {
-                return res.status(403).json({ message: 'No tienes permisos'})
-            }
-            next()
         }
     }
 }
+
+
+function requerirMismoUsuario(){
+    // El usuario puede realizar esta accion sobre su propio usuario,
+    //       (no sobre otro usuario)
+    // El admin también puede realizar esta accion
+    return (req: Request, res: Response, next: NextFunction) => {
+        
+        if (!req.user){
+            return res.status(401).json({ message: 'Necesitas permisos para acceder'})
+        }
+        const rol = req.user.rol
+
+        if (rol === RolUsuario.Admin) {
+            return next()
+        }  
+
+        const idFromToken = req.user.id
+        //const usuario = em.findOneOrFail(Usuario, { id: idFromToken}) innecesario
+        if (!idFromToken) {
+            return res.status(401).json({ message: 'Necesitas permisos para acceder'})
+        }
+
+        //busacamos el id del user q se intenta editar
+        let idFromUrl = Number.parseInt(req.params.id)
+
+        //si no esta en el URL buscamos en params y body
+        if (!idFromUrl) {
+            idFromUrl = Number.parseInt(req.params.usuario)
+        }
+
+        if (!idFromUrl) {
+            idFromUrl = Number.parseInt(req.body.usuario)
+        }
+        
+        if (idFromToken !== idFromUrl) {
+            return res.status(403).json({ message: 'No tienes permisos'})
+        }
+        next()
+        
+    }
+}
+
+
 
 async function requerirUsuario(req: Request, res: Response, next: NextFunction){  //solo pide usuario logueado
     if (!req.user){
@@ -108,4 +132,5 @@ async function requerirUsuario(req: Request, res: Response, next: NextFunction){
 }
 
 
-export {JwtPayload, generateToken, verifyToken, identifyAuth, autorizarAccion, requerirUsuario}
+export {JwtPayload, generateToken, verifyToken, identifyAuth,
+        requerirAdmin, requerirMismoUsuario, requerirUsuario}
