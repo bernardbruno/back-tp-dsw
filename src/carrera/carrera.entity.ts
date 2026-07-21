@@ -48,15 +48,6 @@ export class Carrera extends BaseEntity {
     // Resultado oficial de la carrera 
     // (lo carga el admin cuando termina, con esto se van a evaluar las predicciones de los usuarios)
 
-    @ManyToOne(() => Piloto, {nullable: true})
-    resultado_puesto1?: Rel<Piloto> | null
-
-    @ManyToOne(() => Piloto, {nullable: true})
-    resultado_puesto2?: Rel<Piloto> | null
-
-    @ManyToOne(() => Piloto, {nullable: true})
-    resultado_puesto3?: Rel<Piloto> | null
-
     @Property({nullable: true})
     resultado_safety_car?: boolean | null
 

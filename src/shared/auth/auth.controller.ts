@@ -22,17 +22,19 @@ function generateToken (payload: JwtPayload) {
 
 function verifyToken(req: Request, res: Response, next: NextFunction){
     try {
+        console.log('Verificando token...')
         req.user = null
         const token = req.cookies.accessToken
     
         const secret = process.env.JWT_SECRET_KEY
         if(!secret){
+            console.log('No se pudo encontrar la clave de autorizacion')
             return res.status(500).json({message: 'No se pudo encontrar la clave de autorizacion'})
         }
         if (token){
             const data = jwt.verify(token, secret!)
             req.user = data
-            console.log(data)   //quitar
+            console.log('Token Verificado\n'+data)   //quitar
         }
         
     } catch (error: any) {
@@ -53,30 +55,29 @@ function identifyAuth(req: Request, res: Response, next: NextFunction){
     return res.status(200).json({message: "No hay una sesion de usuario identificada"})
 }
 
-function requerirAdmin(){
-    // Sólo el admin puede realizar esta accion
-    
-    return (req: Request, res: Response, next: NextFunction) => {
+function requerirAdmin(req: Request, res: Response, next: NextFunction){
+        console.log('requerirAdmin dentro')
         
         if (!req.user){
+            console.log('No se encontró usuario de acceso')
             return res.status(401).json({ message: 'Necesitas permisos para acceder'})
         }
         const rol = req.user.rol
 
         if (rol === RolUsuario.Admin) {
+            console.log('Usuario administrador accedido')
             return next()
         } else {
+            console.log('El usuario no es administrador')
             return res.status(403).json({ message: 'No tienes permisos'})
         }
     }
-}
 
 
-function requerirMismoUsuario(){
-    // El usuario puede realizar esta accion sobre su propio usuario,
-    //       (no sobre otro usuario)
-    // El admin también puede realizar esta accion
-    return (req: Request, res: Response, next: NextFunction) => {
+function requerirMismoUsuario(req: Request, res: Response, next: NextFunction) {
+        // El usuario puede realizar esta accion sobre su propio usuario,
+        //       (no sobre otro usuario)
+        // El admin también puede realizar esta accion
         
         if (!req.user){
             return res.status(401).json({ message: 'Necesitas permisos para acceder'})
@@ -111,11 +112,10 @@ function requerirMismoUsuario(){
         next()
         
     }
-}
-
 
 
 async function requerirUsuario(req: Request, res: Response, next: NextFunction){  //solo pide usuario logueado
+    console.log('requerirUsuario')
     if (!req.user){
             return res.status(401).json({ message: 'Necesitas iniciar sesion para acceder'})
         }
@@ -132,5 +132,5 @@ async function requerirUsuario(req: Request, res: Response, next: NextFunction){
 }
 
 
-export {JwtPayload, generateToken, verifyToken, identifyAuth,
+export {JwtPayload, generateToken, verifyToken, identifyAuth,   //Por qué se exporta el JwtPayload??
         requerirAdmin, requerirMismoUsuario, requerirUsuario}

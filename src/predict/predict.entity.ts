@@ -69,5 +69,10 @@ export class Predict {
     @ManyToOne(() => Piloto, { nullable: true})
     piloto_del_dia?: Piloto
 
- //tiempos?
+    // --- Puntaje de la Predict  ---
+    @Property({ nullable: true })
+    puntaje?: number | null;
+
+    @Property({ nullable: true })
+    fecha_evaluacion?: Date | null;
 }

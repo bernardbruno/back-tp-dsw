@@ -9,6 +9,7 @@ em.getRepository(Resultado)
 em.getRepository(Carrera)
 
 function sanitizeResultadoInput(req: Request, res: Response, next: NextFunction) {
+  console.log('sanitizeResultadoInput')
     const penalizado = req.body.penalizado
 
     if (penalizado !== undefined && typeof penalizado !== 'boolean') {
@@ -33,6 +34,7 @@ function sanitizeResultadoInput(req: Request, res: Response, next: NextFunction)
 }
 
 function sanitizeManyResultadosInput(req: Request, res: Response, next: NextFunction) {
+    console.log('sanitizeManyResultadosInput')
     const raw_pilotos = req.body.pilotos
 
     if (!Array.isArray(raw_pilotos)) {
@@ -99,7 +101,6 @@ async function findAllPorCarrera(req: Request, res: Response) {
         {populate: [
           'vuelta_rapida', 'pole', 'circuito',
           'duelo_piloto_a', 'duelo_piloto_b', 'pit_stops_piloto',
-          'resultado_puesto1', 'resultado_puesto2', 'resultado_puesto3',
           'resultado_duelo_ganador',
           'resultado_escuderia_parada_rapida', 'resultado_piloto_del_dia'
         ]}
@@ -148,6 +149,7 @@ async function addOne(req: Request, res: Response) {
 }
 
 async function addResultadosEnCarrera(req: Request, res: Response) {
+  console.log('addResultadosEnCarrera')
     try {
       const id_carrera = Number.parseInt(req.params.carrera)
       const carrera = await em.findOneOrFail(Carrera, { id: id_carrera })
@@ -173,6 +175,7 @@ async function addResultadosEnCarrera(req: Request, res: Response) {
 }
 
 async function updateOne(req: Request, res: Response) {
+  console.log('updateOne')
   try {
     const piloto_id = Number.parseInt(req.params.piloto)
     const carrera_id = Number.parseInt(req.params.carrera)
